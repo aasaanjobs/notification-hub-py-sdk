@@ -21,11 +21,12 @@ class TestNotificationTask(unittest.TestCase):
         pass
 
     def setUp(self):
-        self.assertTrue(load_sqs_settings())
-        sqs_config = SqsConfig(SQS_ACCESS_KEY_ID,
-                               SQS_SECRET_ACCESS_KEY,
-                               SQS_QUEUE_URL,
-                               SQS_REGION)
+        sqs_config = load_sqs_settings()
+        self.assertIsNotNone(sqs_config)
+        sqs_config = SqsConfig(sqs_config["SQS_ACCESS_KEY_ID"],
+                               sqs_config["SQS_SECRET_ACCESS_KEY"],
+                               sqs_config["SQS_QUEUE_URL"],
+                               sqs_config["SQS_REGION"])
         self.task_obj = Task(sqs_config=sqs_config)
 
     def tearDown(self):
@@ -67,9 +68,6 @@ class TestNotificationTask(unittest.TestCase):
    
     def test_complete_task_creation(self):
 
-        # create task
-        self.task_obj = None
-        self.task_obj = Task(sqs_config=sqs_config)
         self.task_obj.set_id(uuid.uuid1())
         self.task_obj.set_name("task1")
         self.task_obj.set_message_type(MessageType.TRANSACTIONAL)

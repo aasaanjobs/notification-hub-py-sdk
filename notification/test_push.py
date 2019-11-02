@@ -27,11 +27,12 @@ class TestPush(unittest.TestCase):
         push_obj.set_waterfall_config(Waterfall(1, 20))
 
         # create task obj
-        self.assertTrue(load_sqs_settings())
-        sqs_config = SqsConfig(SQS_ACCESS_KEY_ID,
-                               SQS_SECRET_ACCESS_KEY,
-                               SQS_QUEUE_URL,
-                               SQS_REGION)
+        sqs_config = load_sqs_settings()
+        self.assertIsNotNone(sqs_config)
+        sqs_config = SqsConfig(sqs_config["SQS_ACCESS_KEY_ID"],
+                               sqs_config["SQS_SECRET_ACCESS_KEY"],
+                               sqs_config["SQS_QUEUE_URL"],
+                               sqs_config["SQS_REGION"])
         task_obj = Task(sqs_config=sqs_config)
         task_obj.set_push(push_obj)
         self.assertNotEqual(task_obj.get_push(), None)
