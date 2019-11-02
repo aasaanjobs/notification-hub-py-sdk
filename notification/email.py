@@ -1,6 +1,7 @@
 import protocol.notification_hub_pb2 as pb
 from typing import List
-from notification.common import Waterfall
+from .common import Waterfall
+import json
 
 
 class EmailRecipient:
@@ -23,7 +24,10 @@ class EmailRecipient:
         :return:
             None
         """
-        self._email_recipient.email = email
+        if isinstance(email, str):
+            self._email_recipient.email = email
+        else:
+            raise ValueError('Invalid parameter passed. Parameter must be of type uuid')
 
     def get_email(self) -> str:
         return self._email_recipient.email
@@ -41,7 +45,10 @@ class EmailRecipient:
         :return:
             None
         """
-        self._email_recipient.name = name
+        if isinstance(name, str):
+            self._email_recipient.name = name
+        else:
+            raise ValueError('Invalid parameter passed. Parameter must be of type str')
 
     def get_name(self) -> str:
         return self._email_recipient.name
@@ -55,10 +62,10 @@ class EmailRecipient:
     def __repr__(self):
         return f'{self._email_recipient.email}, {self._email_recipient.name}'
     
-    def get_object(self):
+    def get_proto_object(self):
         """
         :returns
-            EmailRecipient object
+            EmailRecipient protobuf object
         """
         return self._email_recipient
 
@@ -96,7 +103,10 @@ class EmailAttachment:
         :return:
             None
         """
-        self._email_attachment.filename = file_name
+        if isinstance(file_name, str):
+            self._email_attachment.filename = file_name
+        else:
+            raise ValueError('Invalid parameter passed. Parameter must be of type str')
 
     def get_file_name(self) -> str:
         return self._email_attachment.filename
@@ -104,7 +114,7 @@ class EmailAttachment:
     def del_file_name(self):
         del self._email_attachment.file_name
 
-    def set_url(self, url):
+    def set_url(self, url: str):
         """
         Sets url of EmailAttachment
 
@@ -114,7 +124,11 @@ class EmailAttachment:
         :return:
             None
         """
-        self._email_attachment.url = url
+        if isinstance(url, str):
+            self._email_attachment.url = url
+        else:
+            raise ValueError('Invalid parameter passed. Parameter must be of type str')
+
 
     def get_url(self) -> str:
         return self._email_attachment.url
@@ -128,10 +142,10 @@ class EmailAttachment:
     def __str__(self):
         return f'{self._email_attachment.filename}, {self._email_attachment.url}'
 
-    def get_object(self):
+    def get_proto_object(self):
         """
         :returns
-            EmailAttachment object
+            EmailAttachment protobuf object
         """
         return self._email_attachment
 
@@ -188,7 +202,7 @@ class Email:
         for email_reci in email_recipients:
             if isinstance(email_reci, EmailRecipient):
                 if email_reci.mandatory_fields_check():
-                    self._email.toRecipients.append(email_reci.get_object())
+                    self._email.toRecipients.append(email_reci.get_proto_object())
                 else:
                     raise ValueError('Mandatory fields of EmailRecipient are not set')
             else:
@@ -200,17 +214,20 @@ class Email:
     def del_to_recipients(self):
         del self._email.toRecipients
 
-    def set_context(self, context: str):
+    def set_context(self, context: dict):
         """
         Sets email context
 
         Parameter:
-            str
+            dict
 
         :return:
             None
         """
-        self._email.context = context
+        if isinstance(context, dict):
+            self._email.context = json.dumps(context)
+        else:
+            raise ValueError('Invalid parameter passed. Parameter must be of type dict')
 
     def get_context(self) -> str:
         return self._email.context
@@ -248,7 +265,7 @@ class Email:
         """
         if isinstance(sender, EmailRecipient):
             if sender.mandatory_fields_check():
-                self._email.sender.CopyFrom(sender.get_object())
+                self._email.sender.CopyFrom(sender.get_proto_object())
             else:
                 raise ValueError('Mandatory fields of EmailRecipient are not set')
         else:
@@ -272,7 +289,7 @@ class Email:
         """
         if isinstance(reply_to, EmailRecipient):
             if reply_to.mandatory_fields_check():
-                self._email.replyTo.CopyFrom(reply_to.get_object())
+                self._email.replyTo.CopyFrom(reply_to.get_proto_object())
             else:
                 raise ValueError('Mandatory fields of EmailRecipient are not set')
         else:
@@ -297,7 +314,7 @@ class Email:
         for email_reci in email_recipients:
             if isinstance(email_reci, EmailRecipient):
                 if email_reci.mandatory_fields_check():
-                    self._email.ccRecipients.append(email_reci.get_object())
+                    self._email.ccRecipients.append(email_reci.get_proto_object())
                 else:
                     raise ValueError('Mandatory fields of EmailRecipient are not set')
             else:
@@ -322,7 +339,7 @@ class Email:
         for email_attach in attachments:
             if isinstance(email_attach, EmailAttachment):
                 if email_attach.mandatory_fields_check():
-                    self._email.attachments.append(email_attach.get_object())
+                    self._email.attachments.append(email_attach.get_proto_object())
                 else:
                     raise ValueError('Mandatory fields of EmailAttachment are not set')
             else:
@@ -345,7 +362,7 @@ class Email:
             None
         """
         if isinstance(waterfall, Waterfall):
-            self._email.waterfallConfig.CopyFrom(waterfall.get_object())
+            self._email.waterfallConfig.CopyFrom(waterfall.get_proto_object())
         else:
             print("Invalid parameter; parameter should be of type Waterfall")
 
@@ -382,7 +399,7 @@ class Email:
     def __repr__(self):
         return f'{self._email.template}, {self._email.toRecipients}, {self._email.context}, {self._email.subject}, {self._email.sender}, {self._email.replyTo}, {self._email.ccRecipients}, {self._email.attachments}, {self._email.waterfallConfig}, {self._email.expiry}'
 
-    def get_object(self):
+    def get_proto_object(self):
         """
         :return:
             Email protobuf object

@@ -1,5 +1,5 @@
 import boto3
-from notification.sqs_config import SqsConfig
+from .sqs_config import SqsConfig
 
 
 class SqsProducer:

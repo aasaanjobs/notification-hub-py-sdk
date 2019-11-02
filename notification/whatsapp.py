@@ -1,5 +1,6 @@
 import protocol.notification_hub_pb2 as pb
-from notification.common import Waterfall
+from .common import Waterfall
+import json
 
 
 class Whatsapp:
@@ -20,7 +21,10 @@ class Whatsapp:
         :return:
             None
         """
-        self._whatsapp.template = template
+        if isinstance(template, str):
+            self._whatsapp.template = template
+        else:
+            raise ValueError('Invalid parameter passed. Parameter must be of type str')
 
     def get_template(self) -> str:
         return self._whatsapp.template
@@ -38,7 +42,10 @@ class Whatsapp:
         :return:
             None
         """
-        self._whatsapp.mobile = mobile
+        if isinstance(mobile, str):
+            self._whatsapp.mobile = mobile
+        else:
+            raise ValueError('Invalid parameter passed. Parameter must be of type str')
 
     def get_mobile(self) -> str:
         return self._whatsapp.mobile
@@ -46,17 +53,20 @@ class Whatsapp:
     def del_mobile(self):
         del self._whatsapp.mobile
 
-    def set_context(self, context):
+    def set_context(self, context: dict):
         """
         Sets whatsapp context
 
         Parameter:
-            str
+            dict
 
         :return:
             None
         """
-        self._whatsapp.context = context
+        if isinstance(context, dict):
+            self._whatsapp.context = json.dumps(context)
+        else:
+            raise ValueError('Invalid parameter passed. Parameter must be of type dict')
 
     def get_context(self) -> str:
         return self._whatsapp.context
@@ -75,7 +85,7 @@ class Whatsapp:
             None
         """
         if isinstance(waterfall, Waterfall):
-            self._whatsapp.waterfallConfig.CopyFrom(waterfall.get_object())
+            self._whatsapp.waterfallConfig.CopyFrom(waterfall.get_proto_object())
         else:
             raise ValueError('Invalid parameter passed. Parameter must be of Waterfall')
 
@@ -112,7 +122,7 @@ class Whatsapp:
     def __repr__(self):
         return f'{self._whatsapp.template}, {self._whatsapp.mobile}, {self._whatsapp.context}, {self._whatsapp.waterfallConfig}, {self._whatsapp.expiry}'
 
-    def get_object(self):
+    def get_proto_object(self):
         return self._whatsapp
 
     def mandatory_fields_check(self) -> bool:

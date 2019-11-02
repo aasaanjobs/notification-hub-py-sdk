@@ -1,6 +1,7 @@
 import protocol.notification_hub_pb2 as pb
 from typing import List
-from notification.common import Waterfall
+from .common import Waterfall
+import json
 
 
 class Push:
@@ -39,7 +40,7 @@ class Push:
         :return:
             None
         """
-        for ep in range(arn_endpoints):
+        for ep in arn_endpoints:
             if isinstance(ep, str):
                 self._push.arnEndpoints.append(ep)
             else:
@@ -51,17 +52,20 @@ class Push:
     def del_arn_endpoints(self):
         del self._push.arnEndpoints
 
-    def set_context(self, context: str):
+    def set_context(self, context: dict):
         """
         Sets push context
 
         Parameter:
-            str
+            dict
 
         :return:
             None
         """
-        self._push.context = context
+        if isinstance(context, dict):
+            self._push.context = json.dumps(context)
+        else:
+            raise ValueError('Invalid parameter passed. Parameter must be of type dict')
 
     def get_context(self) -> str:
         return self._push.context
@@ -80,7 +84,7 @@ class Push:
             None
         """
         if isinstance(waterfall, Waterfall):
-            self._push.waterfallConfig.CopyFrom(waterfall.get_object())
+            self._push.waterfallConfig.CopyFrom(waterfall.get_proto_object())
         else:
             raise ValueError('Invalid parameter passed. Parameter must be of Waterfall')
 
@@ -117,7 +121,7 @@ class Push:
     def __repr__(self):
         return f'{self._push.template}, {self._push.arnEndpoints}, {self._push.context}, {self._push.waterfallConfig}, {self._push.expiry}'
 
-    def get_object(self):
+    def get_proto_object(self):
         """
         :return:
             SMS protobuf object

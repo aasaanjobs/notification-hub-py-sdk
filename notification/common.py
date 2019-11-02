@@ -64,7 +64,7 @@ class Waterfall:
     def __repr__(self):
         return f'{self._waterfall.priority}, {self._waterfall.offset_time}'
 
-    def get_object(self):
+    def get_proto_object(self):
         """
         :return:
             Waterfall protobuf object

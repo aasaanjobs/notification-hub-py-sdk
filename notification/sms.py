@@ -1,5 +1,6 @@
 import protocol.notification_hub_pb2 as pb
-from notification.common import Waterfall
+from .common import Waterfall
+import json
 
 
 class Sms:
@@ -20,7 +21,10 @@ class Sms:
         :return:
             None
         """
-        self._sms.template = template
+        if isinstance(template, str):
+            self._sms.template = template
+        else:
+            raise ValueError('Invalid parameter passed. Parameter must be of type str')
 
     def get_template(self) -> str:
         return self._sms.template
@@ -38,7 +42,10 @@ class Sms:
         :return:
             None
         """
-        self._sms.mobile = mobile
+        if isinstance(mobile, str):
+            self._sms.mobile = mobile
+        else:
+            raise ValueError('Invalid parameter passed. Parameter must be of type str')
 
     def get_mobile(self) -> str:
         return self._sms.mobile
@@ -46,17 +53,20 @@ class Sms:
     def del_mobile(self):
         del self._sms.mobile
 
-    def set_context(self, context: str):
+    def set_context(self, context: dict):
         """
         Sets sms context
 
         Parameter:
-            str
+            dict
 
         :return:
             None
         """
-        self._sms.context = context
+        if isinstance(context, dict):
+            self._sms.context = json.dumps(context)
+        else:
+            raise ValueError('Invalid parameter passed. Parameter must be of type dict')
 
     def get_context(self) -> str:
         return self._sms.context
@@ -76,7 +86,7 @@ class Sms:
             None
         """
         if isinstance(waterfall, Waterfall):
-            self._sms.waterfallConfig.CopyFrom(waterfall.get_object())
+            self._sms.waterfallConfig.CopyFrom(waterfall.get_proto_object())
         else:
             raise ValueError('Invalid parameter passed. Parameter must be of Waterfall')
 
@@ -113,7 +123,7 @@ class Sms:
     def __repr__(self):
         return f'{self._sms.template}, {self._sms.mobile}, {self._sms.context}, {self._sms.waterfallConfig}, {self._sms.expiry}'
 
-    def get_object(self):
+    def get_proto_object(self):
         """
         :return:
             SMS protobuf object

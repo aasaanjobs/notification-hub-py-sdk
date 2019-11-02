@@ -1,11 +1,11 @@
 from protocol.notification_hub_pb2 import NotificationTask
-from notification.email import Email
-from notification.sms import Sms
-from notification.whatsapp import Whatsapp
-from notification.push import Push
-from notification.common import Waterfall, WaterfallMode, MessageType
-from notification.sqs_config import SqsConfig
-import notification.sqs as sqs
+from .email import Email
+from .sms import Sms
+from .whatsapp import Whatsapp
+from .push import Push
+from .common import WaterfallMode, MessageType
+from .sqs_config import SqsConfig
+from .sqs import SqsProducer
 import uuid 
 
 class Task:
@@ -115,7 +115,7 @@ class Task:
         """
         if isinstance(email, Email):
             if email.mandatory_fields_check():
-                self._task.email.CopyFrom(email.get_object())
+                self._task.email.CopyFrom(email.get_proto_object())
             else:
                 raise ValueError('Mandatory fields of Email are not set')
         else:
@@ -139,7 +139,7 @@ class Task:
         """
         if isinstance(sms, Sms):
             if sms.mandatory_fields_check():
-                self._task.sms.CopyFrom(sms.get_object())
+                self._task.sms.CopyFrom(sms.get_proto_object())
             else:
                 raise ValueError('Mandatory fields of Sms are not set')
         else:
@@ -163,7 +163,7 @@ class Task:
         """
         if isinstance(whatsapp, Whatsapp):
             if whatsapp.mandatory_fields_check():
-                self._task.whatsapp.CopyFrom(whatsapp.get_object())
+                self._task.whatsapp.CopyFrom(whatsapp.get_proto_object())
             else:
                 raise ValueError('Mandatory fields of Whatsapp are not set')
         else:
@@ -187,7 +187,7 @@ class Task:
         """
         if isinstance(push, Push):
             if push.mandatory_fields_check():
-                self._task.push.CopyFrom(push.get_object())
+                self._task.push.CopyFrom(push.get_proto_object())
             else:
                 raise ValueError('Mandatory fields of Push are not set')
         else:
@@ -315,7 +315,7 @@ class Task:
     def __repr__(self):
          return f'{self._task.ID}, {self._task.name}, {self._task.messageType}, {self._task.sentByID}, {self._task.client}, {self._task.waterfallType}, {self._task.expiry}, {self._task.email}, {self._task.sms}, {self._task.whatsapp}, {self._task.push}'
 
-    def get_object(self) -> NotificationTask :
+    def get_proto_object(self) -> NotificationTask :
         """
         :return:
             NotificationTask protobuf object
@@ -365,7 +365,7 @@ class Task:
             # currently, we are sending string instead of serialized string.
             serialized_string = self.get_serialized_string()
             
-            producer = sqs.SqsProducer(sqs_config= self._sqs_config)
+            producer = SqsProducer(sqs_config= self._sqs_config)
             if producer.send_message(serialized_string):
                 return_value =  True
         else:
