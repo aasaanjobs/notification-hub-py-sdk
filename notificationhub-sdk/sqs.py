@@ -1,5 +1,5 @@
 import boto3
-from .sqs_config import SqsConfig
+from notification.sqs_config import SqsConfig
 
 
 class SqsProducer:
@@ -17,7 +17,7 @@ class SqsProducer:
         if self._sqs_config is None or not isinstance(self._sqs_config, SqsConfig):
             raise ValueError('Invalid SQS config!!')
         self.init_sqs_session()
-    
+
     def init_sqs_session(self):
         """
         Initiates SQS session and queue
@@ -71,7 +71,7 @@ class SqsProducer:
 
         return send_message_status
 
-        
+
 
 
 

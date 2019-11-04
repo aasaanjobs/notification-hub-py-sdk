@@ -2,11 +2,11 @@ from protocol.notification_hub_pb2 import NotificationTask
 from .email import Email
 from .sms import Sms
 from .whatsapp import Whatsapp
-from .push import Push
-from .common import WaterfallMode, MessageType
-from .sqs_config import SqsConfig
-from .sqs import SqsProducer
-import uuid 
+from notification.push import Push
+from notification.common import WaterfallMode, MessageType
+from notification.sqs_config import SqsConfig
+from notification.sqs import SqsProducer
+import uuid
 
 class Task:
     """
@@ -28,12 +28,12 @@ class Task:
         if not isinstance(self._sqs_config, SqsConfig):
             raise ValueError('Invalid SQS config!!')
 
-    
+
     def set_id(self, uuid_obj: uuid):
         """
         Sets passed uuid to task ID as str
 
-        Parameter: 
+        Parameter:
             uuid
 
         Raises:
@@ -45,7 +45,7 @@ class Task:
         if isinstance(uuid_obj, uuid.UUID):
             self._task.ID = str(uuid_obj)
         else:
-             raise ValueError('Invalid parameter passed. Parameter must be of type uuid') 
+             raise ValueError('Invalid parameter passed. Parameter must be of type uuid')
 
 
     def get_id(self) -> str:
@@ -59,7 +59,7 @@ class Task:
         """
         Sets name of the task
 
-        Parameter: 
+        Parameter:
             str
 
         :return:
@@ -68,7 +68,7 @@ class Task:
         if isinstance(name, str):
             self._task.name = name
         else:
-            raise ValueError('Invalid parameter passed. Parameter must be of str') 
+            raise ValueError('Invalid parameter passed. Parameter must be of str')
 
 
     def get_name(self) -> str:
@@ -77,13 +77,13 @@ class Task:
     def del_name(self):
         del self._task.name
 
-    
+
     def set_message_type(self, message_type: MessageType = MessageType.MARKETING):
         """
         Sets messageType of the task
         message_type : possible options 0(MARKETING) / 1(TRANSACTIONAL)
 
-        Parameter: 
+        Parameter:
             MessageType or int
 
         Raises:
@@ -107,7 +107,7 @@ class Task:
         """
         Sets task email
 
-        Parameter: 
+        Parameter:
             Email
 
         :return:
@@ -119,7 +119,7 @@ class Task:
             else:
                 raise ValueError('Mandatory fields of Email are not set')
         else:
-            raise ValueError('Invalid parameter passed. Parameter must be of type Email') 
+            raise ValueError('Invalid parameter passed. Parameter must be of type Email')
 
     def get_email(self) -> Email:
         return self._task.email
@@ -131,7 +131,7 @@ class Task:
         """
         Sets task sms
 
-        Parameter: 
+        Parameter:
             Sms
 
         :return:
@@ -143,7 +143,7 @@ class Task:
             else:
                 raise ValueError('Mandatory fields of Sms are not set')
         else:
-            raise ValueError('Invalid parameter passed. Parameter must be of type Sms') 
+            raise ValueError('Invalid parameter passed. Parameter must be of type Sms')
 
     def get_sms(self) -> Sms:
         return self._task.sms
@@ -155,7 +155,7 @@ class Task:
         """
         Sets task whatsapp
 
-        Parameter: 
+        Parameter:
             Whatsapp
 
         :return:
@@ -167,7 +167,7 @@ class Task:
             else:
                 raise ValueError('Mandatory fields of Whatsapp are not set')
         else:
-            raise ValueError('Invalid parameter passed. Parameter must be of type Whatsapp') 
+            raise ValueError('Invalid parameter passed. Parameter must be of type Whatsapp')
 
     def get_whatsapp(self) -> Whatsapp:
         return self._task.whatsapp
@@ -179,7 +179,7 @@ class Task:
         """
         Sets task push
 
-        Parameter: 
+        Parameter:
             Push
 
         :return:
@@ -191,7 +191,7 @@ class Task:
             else:
                 raise ValueError('Mandatory fields of Push are not set')
         else:
-            raise ValueError('Invalid parameter passed. Parameter must be of type Push') 
+            raise ValueError('Invalid parameter passed. Parameter must be of type Push')
 
     def get_push(self) -> Push:
         return self._task.push
@@ -203,7 +203,7 @@ class Task:
         """
         Sets passed uuid to task sentByID as str
 
-        Parameter: 
+        Parameter:
             uuid
 
         Raises:
@@ -215,7 +215,7 @@ class Task:
         if isinstance(sent_by_id, uuid.UUID):
             self._task.sentByID = str(sent_by_id)
         else:
-             raise ValueError('Invalid parameter passed. Parameter must be of type uuid') 
+             raise ValueError('Invalid parameter passed. Parameter must be of type uuid')
 
     def get_sent_by_id(self) -> str:
         return self._task.sentByID
@@ -227,7 +227,7 @@ class Task:
         """
         Sets client
 
-        Parameter: 
+        Parameter:
             str
 
         :return:
@@ -364,7 +364,7 @@ class Task:
         if self.mandatory_fields_check():
             # currently, we are sending string instead of serialized string.
             serialized_string = self.get_serialized_string()
-            
+
             producer = SqsProducer(sqs_config= self._sqs_config)
             if producer.send_message(serialized_string):
                 return_value =  True

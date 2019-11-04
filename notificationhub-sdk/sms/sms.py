@@ -1,5 +1,5 @@
 import protocol.notification_hub_pb2 as pb
-from .common import Waterfall
+from notification.common import Waterfall
 import json
 
 

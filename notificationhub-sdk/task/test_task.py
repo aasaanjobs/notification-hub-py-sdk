@@ -1,13 +1,13 @@
 import unittest
 from .task import Task
-from .email import Email, EmailRecipient, EmailAttachment
+from .email import Email, EmailRecipient
 from .sms import Sms
 from .whatsapp import Whatsapp
-from .push import Push
-from .common import Waterfall, MessageType, WaterfallMode
-from .sqs_config import SqsConfig
+from notification.push import Push
+from notification.common import Waterfall, MessageType, WaterfallMode
+from notification.sqs_config import SqsConfig
 from datetime import datetime
-from .env_file_settings import *
+from notification.env_file_settings import *
 import uuid
 
 
@@ -31,7 +31,7 @@ class TestNotificationTask(unittest.TestCase):
 
     def tearDown(self):
         self.task_obj = None
-        
+
     def test_id(self):
         random_uuid = uuid.uuid1()
         self.task_obj.set_id(random_uuid)
@@ -65,7 +65,7 @@ class TestNotificationTask(unittest.TestCase):
         epoch_time = datetime.timestamp(curr_time)
         self.task_obj.set_expiry(epoch_time)
         self.assertEqual(datetime.fromtimestamp(self.task_obj.get_expiry()).strftime('%Y-%m-%d %H:%M:%S.%f'), str(curr_time))
-   
+
     def test_complete_task_creation(self):
 
         self.task_obj.set_id(uuid.uuid1())

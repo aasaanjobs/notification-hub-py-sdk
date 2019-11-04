@@ -1,9 +1,9 @@
 import unittest
 from .push import Push
-from .common import Waterfall
+from notification.common import Waterfall
 from .task import Task
-from .sqs_config import SqsConfig
-from .env_file_settings import *
+from notification.sqs_config import SqsConfig
+from notification.env_file_settings import *
 import json
 
 

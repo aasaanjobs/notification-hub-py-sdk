@@ -1,19 +1,20 @@
 import protocol.notification_hub_pb2 as pb
-from .common import Waterfall
+from typing import List
+from notification.common import Waterfall
 import json
 
 
-class Whatsapp:
+class Push:
 
     def __init__(self):
         """
-        Initiates Whatsapp object
+        Initiates Push object
         """
-        self._whatsapp = pb.Whatsapp()
+        self._push = pb.Push()
 
     def set_template(self, template : str):
         """
-        Sets whatsapp template
+        Sets push template
 
         Parameter:
             str
@@ -21,20 +22,17 @@ class Whatsapp:
         :return:
             None
         """
-        if isinstance(template, str):
-            self._whatsapp.template = template
-        else:
-            raise ValueError('Invalid parameter passed. Parameter must be of type str')
+        self._push.template = template
 
     def get_template(self) -> str:
-        return self._whatsapp.template
+        return self._push.template
 
     def del_template(self):
-        del self._whatsapp.template
+        del self._push.template
 
-    def set_mobile(self, mobile: str):
+    def set_arn_endpoints(self, arn_endpoints: List[str]):
         """
-        Sets whatsapp mobile number
+        Sets push arnEndpoints
 
         Parameter:
             str
@@ -42,20 +40,21 @@ class Whatsapp:
         :return:
             None
         """
-        if isinstance(mobile, str):
-            self._whatsapp.mobile = mobile
-        else:
-            raise ValueError('Invalid parameter passed. Parameter must be of type str')
+        for ep in arn_endpoints:
+            if isinstance(ep, str):
+                self._push.arnEndpoints.append(ep)
+            else:
+                print("Invalid parameter; parameter should be of type List[str]")
 
-    def get_mobile(self) -> str:
-        return self._whatsapp.mobile
+    def get_arn_endpoints(self) -> List[str]:
+        return self._push.arnEndpoints
 
-    def del_mobile(self):
-        del self._whatsapp.mobile
+    def del_arn_endpoints(self):
+        del self._push.arnEndpoints
 
     def set_context(self, context: dict):
         """
-        Sets whatsapp context
+        Sets push context
 
         Parameter:
             dict
@@ -64,19 +63,19 @@ class Whatsapp:
             None
         """
         if isinstance(context, dict):
-            self._whatsapp.context = json.dumps(context)
+            self._push.context = json.dumps(context)
         else:
             raise ValueError('Invalid parameter passed. Parameter must be of type dict')
 
     def get_context(self) -> str:
-        return self._whatsapp.context
+        return self._push.context
 
     def del_context(self):
-        del self._whatsapp.context
+        del self._push.context
 
     def set_waterfall_config(self, waterfall: Waterfall ):
         """
-        Sets sms waterfall settings
+        Sets push waterfall settings
 
         Parameter:
             str
@@ -85,19 +84,19 @@ class Whatsapp:
             None
         """
         if isinstance(waterfall, Waterfall):
-            self._whatsapp.waterfallConfig.CopyFrom(waterfall.get_proto_object())
+            self._push.waterfallConfig.CopyFrom(waterfall.get_proto_object())
         else:
             raise ValueError('Invalid parameter passed. Parameter must be of Waterfall')
 
     def get_waterfall_config(self) -> Waterfall:
-        return self._whatsapp.waterfallConfig
+        return self._push.waterfallConfig
 
     def del_waterfall_config(self):
-        return self._whatsapp.waterfallConfig
+        return self._push.waterfallConfig
 
     def set_expiry(self, expiry: float):
         """
-        Sets expiry of the whatsapp
+        Sets expiry of the push
 
         Parameter:
             EPOCH time(float)
@@ -106,24 +105,28 @@ class Whatsapp:
             None
         """
         if isinstance(expiry, float):
-            self._whatsapp.expiry = expiry
+            self._push.expiry = expiry
         else:
             raise ValueError('Invalid parameter passed. Parameter must be of float')
 
     def get_expiry(self) -> float:
-        return self._whatsapp.expiry
+        return self._push.expiry
 
     def del_expiry(self):
-        del self._whatsapp.expiry
+        del self._push.expiry
 
     def __str__(self):
-        return f'template: {self._whatsapp.template}, mobile: {self._whatsapp.mobile}, context: {self._whatsapp.context}, waterfallConfig: {self._whatsapp.waterfallConfig}, expiry: {self._whatsapp.expiry}'
+        return f'template: {self._push.template}, arnEndpoints: {self._push.arnEndpoints}, context: {self._push.context}, waterfallConfig: {self._push.waterfallConfig}, expiry: {self._push.expiry}'
 
     def __repr__(self):
-        return f'{self._whatsapp.template}, {self._whatsapp.mobile}, {self._whatsapp.context}, {self._whatsapp.waterfallConfig}, {self._whatsapp.expiry}'
+        return f'{self._push.template}, {self._push.arnEndpoints}, {self._push.context}, {self._push.waterfallConfig}, {self._push.expiry}'
 
     def get_proto_object(self):
-        return self._whatsapp
+        """
+        :return:
+            SMS protobuf object
+        """
+        return self._push
 
     def mandatory_fields_check(self) -> bool:
         """
@@ -136,4 +139,4 @@ class Whatsapp:
         :return:
             bool
         """
-        return self.get_mobile() and self.get_context() and self.get_template()
+        return self.get_arn_endpoints() and self.get_context() and self.get_template()
