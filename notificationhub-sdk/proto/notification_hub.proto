@@ -28,7 +28,7 @@ message NotificationTask {
     }
     WaterfallMode waterfallType = 10;
     // timestramp - UNIX EPOCH time
-    double triggeredOn = 11;
+    int64 triggeredOn = 11;
     // platform
     enum Platform {
         AASAANJOBS = 0;
