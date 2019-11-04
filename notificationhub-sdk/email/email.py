@@ -1,7 +1,7 @@
 import json
-from datetime import datetime, timedelta
 from typing import List
 
+from base import get_expiry, validate_email, validate_template
 from common import Waterfall, Platform
 from proto import notification_hub_pb2 as pb
 
@@ -13,6 +13,7 @@ class EmailRecipient:
         Initiates EmailRecipient object
         """
         self._email_recipient = pb.EmailRecipient()
+        validate_email(email)
         self._email_recipient.email = email
         self._email_recipient.name = name
 
@@ -67,7 +68,10 @@ class Email:
         """
         self._email = pb.Email()
         self.__set_recipients(send_to)
+
+        validate_template(template)
         self._email.template = template
+
         self._email.subject = subject
         self.platform = platform
         print(context)
@@ -76,8 +80,8 @@ class Email:
         self._email.sender.CopyFrom(self.__set_sender(sender))
         self._email.replyTo.CopyFrom(self.__set_reply_to(reply_to))
         self.__set_cc(cc)
-        # self._email.waterfallConfig.CopyFrom(waterfall_config)
-        self._email.expiry = self.__set_expiry(expiry)
+        self._email.waterfallConfig = waterfall_config if waterfall_config else Waterfall().proto
+        self._email.expiry = expiry if expiry else get_expiry(self._default_expiry_offset)
 
     def __set_recipients(self, send_to: List[EmailRecipient]):
         for _ in send_to:
@@ -110,13 +114,6 @@ class Email:
             return EmailRecipient('support@aasaanjobs.com', 'Aasaanjobs').proto
         else:
             return EmailRecipient('support@olxpeople.com', 'OLX People').proto
-
-    def __set_expiry(self, expiry) -> int:
-        if expiry:
-            return expiry
-        expiry_dt = datetime.utcnow() + timedelta(days=self._default_expiry_offset)
-        expiry_epoch = datetime.timestamp(expiry_dt)
-        return int(expiry_epoch)
 
     @property
     def proto(self) -> pb.Email:
