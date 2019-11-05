@@ -74,7 +74,6 @@ class Email:
 
         self._email.subject = subject
         self.platform = platform
-        print(context)
         self._email.context = json.dumps(context) if context else '{}'
         self.__set_attachments(attachments)
         self._email.sender.CopyFrom(self.__set_sender(sender))

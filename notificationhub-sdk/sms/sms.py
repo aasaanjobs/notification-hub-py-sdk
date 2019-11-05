@@ -27,7 +27,13 @@ class Sms:
 
         self._sms.context = json.dumps(context) if context else '{}'
         self._sms.expiry = expiry if expiry else get_expiry(self._default_expiry_offset)
-        self._sms.waterfallConfig = waterfall_config if waterfall_config else Waterfall().proto
+
+        self.__set_waterfall(waterfall_config)
+
+    def __set_waterfall(self, value: Waterfall = None):
+        if not value:
+            value = Waterfall()
+        self._sms.waterfallConfig.CopyFrom(value.proto)
 
     @property
     def proto(self) -> pb.SMS:

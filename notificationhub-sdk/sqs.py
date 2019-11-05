@@ -1,77 +1,73 @@
+import importlib
+import os
+
 import boto3
-from notification.sqs_config import SqsConfig
 
 
-class SqsProducer:
+class SQSProducer:
     """
     Used for pushing the messages to SQS
     """
+    setting_keys = (
+        ('access_key_id', 'NOTIFICATION_HUB_SQS_ACCESS_KEY_ID'),
+        ('secret_access_key', 'NOTIFICATION_HUB_SQS_SECRET_ACCESS_KEY'),
+        ('region', 'NOTIFICATION_HUB_SQS_REGION'),
+        ('queue_name', 'NOTIFICATION_HUB_SQS_QUEUE_NAME')
+    )
 
-    def __init__(self, *args, **kwargs):
-        """
-        Initiates Sms object
-        """
-        self._notification_sqs = None
+    def __init__(self, **kwargs):
+        # Retrieve Settings
+        self.access_key_id = self._get_setting(*self.setting_keys[0], **kwargs)
+        self.secret_access_key = self._get_setting(*self.setting_keys[1], **kwargs)
+        self.region = self._get_setting(*self.setting_keys[2], **kwargs)
+        self.queue_name = self._get_setting(*self.setting_keys[3], **kwargs)
+
+        self._session = None
         self._queue = None
-        self._sqs_config = kwargs.get('sqs_config')
-        if self._sqs_config is None or not isinstance(self._sqs_config, SqsConfig):
-            raise ValueError('Invalid SQS config!!')
         self.init_sqs_session()
+
+    def _get_setting(self, kw_name, env_name, **kwargs):
+        if kwargs.get(kw_name):
+            return kwargs[kw_name]
+        value = self.__get_from_django_settings(env_name)
+        # If not found in Django settings, retrieve from environment variables
+        if not value:
+            return os.getenv(env_name)
+
+    @staticmethod
+    def __get_from_django_settings(name):
+        """
+        If the Django project is initiated, then retrieves the settings
+        from Django settings
+        :param name: Setting Name
+        :return: Setting Value
+        """
+        try:
+            module = importlib.import_module('django.conf')
+            settings = getattr(module, 'settings')
+            return getattr(settings, name, None)
+        except ModuleNotFoundError:
+            return None
 
     def init_sqs_session(self):
         """
-        Initiates SQS session and queue
-
-        Parameter:
-            None
-
-        :return:
-            None
+        Initiates SQS session
         """
-        self._notification_sqs = boto3.resource(
-            service_name = "sqs",
-            aws_access_key_id = self._sqs_config.get_access_key_id(),
-            aws_secret_access_key = self._sqs_config.get_secret_access_key(),
-            region_name = self._sqs_config.get_region()
+        self._session = boto3.resource(
+            service_name="sqs",
+            aws_access_key_id=self.access_key_id,
+            aws_secret_access_key=self.secret_access_key,
+            region_name=self.region
         )
 
-        for queue in self._notification_sqs.queues.all():
-            if queue.url == self._sqs_config.get_queue_url():
-                self._queue = queue
-        if self._queue is None:
-            raise ValueError('Invalid SQS URL given in the SQS config object!!')
+        # Retrieve Queue
+        self._queue = self._session.get_queue_by_name(QueueName=self.queue_name)
 
-    def send_message(self, message_body: str) -> bool:
+    def send_message(self, message_body: str):
         """
-        sends a message to SQS
-
-        Parameter:
-            message to be sent to SQS (str)
-
-        :return:
-            None
+        Sends a message to Amazon SQS
         """
-        send_message_status = False
-
-        print("message body : ", message_body)
-
-        try:
-            response = self._queue.send_message(
-                QueueUrl=self._queue.url,
-                MessageBody=str(message_body)
-            )
-
-            HTTPStatusCode = response.get('ResponseMetadata').get('HTTPStatusCode')
-            if HTTPStatusCode in [200, 201, 202, 203, 204]:
-                send_message_status = True
-            else:
-                print("Error while sending the message to SQS notification queue", response)
-        except RuntimeError:
-            print("RuntimeError while sending message to SQS")
-
-        return send_message_status
-
-
-
-
-
+        res = self._queue.send_message(QueueUrl=self._queue.url, MessageBody=str(message_body))
+        status_code = res.get('ResponseMetadata').get('HTTPStatusCode')
+        if status_code / 100 != 2:
+            raise ConnectionError('Failed to send message to Hub Queue')
