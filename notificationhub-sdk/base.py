@@ -7,6 +7,10 @@ class InvalidTemplateURL(Exception):
     pass
 
 
+class InvalidAttachmentUrl(Exception):
+    pass
+
+
 class InvalidEmail(Exception):
     pass
 
@@ -37,6 +41,18 @@ def validate_template(url: str):
         r'(?:/?|[/?]\S+)$', re.IGNORECASE)
     if not re.match(regex, url):
         raise InvalidTemplateURL("Invalid template provided")
+
+
+def validate_attachment_url(url: str):
+    """
+    Validates a URL of an email attachment
+    :param url: The value provided
+    :raises: InvalidAttachmentUrl if not a valid url
+    """
+    try:
+        validate_template(url)
+    except InvalidTemplateURL:
+        raise InvalidAttachmentUrl
 
 
 def validate_email(email: str):

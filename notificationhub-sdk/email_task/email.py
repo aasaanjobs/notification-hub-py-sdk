@@ -1,7 +1,7 @@
 import json
 from typing import List
 
-from base import get_expiry, validate_email, validate_template
+from base import get_expiry, validate_email, validate_template, validate_attachment_url
 from common import Waterfall, Platform
 from proto import notification_hub_pb2 as pb
 
@@ -34,6 +34,7 @@ class EmailAttachment:
         """
         Initiates EmailAttachment object
         """
+        validate_attachment_url(url)
         self._email_attachment = pb.EmailAttachment()
         self._email_attachment.filename = file_name
         self._email_attachment.url = url
