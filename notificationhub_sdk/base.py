@@ -15,6 +15,14 @@ class InvalidEmail(Exception):
     pass
 
 
+class InvalidMobile(Exception):
+    pass
+
+
+class InvalidArnEndpoint(Exception):
+    pass
+
+
 def get_expiry(offset: int) -> int:
     """
     Returns the expiry timestamp in epoch
@@ -63,3 +71,21 @@ def validate_email(email: str):
     """
     if not ve(email):
         raise InvalidEmail("Invalid email '{}' provided".format(email))
+
+
+def validate_mobile(mobile: str):
+    """
+    Validates a mobile number
+    :param mobile: The mobile no.
+    :raises: InvalidMobile if not a valid mobile number
+    """
+    regex = re.compile(r'^[6-9]\d{9}$')
+    if not re.match(regex, mobile):
+        raise InvalidMobile('Invalid mobile number provided.')
+
+
+def validate_arn_endpoint(endpoint: str):
+    regex = re.compile(r'^arn:(?P<Partition>[^:\n]*):(?P<Service>[^:\n]*):(?P<Region>[^:\n]*):(?P<AccountID>[^:\n]*):'
+                       r'(?P<Ignore>(?P<ResourceType>[^:\/\n]*)[:\/])?(?P<Resource>.*)$')
+    if not re.match(regex, endpoint):
+        raise InvalidArnEndpoint("Invalid ARN Endpoint '{}' provided".format(endpoint))

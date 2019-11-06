@@ -1,9 +1,9 @@
 import json
 from typing import List
 
-from base import get_expiry, validate_email, validate_template, validate_attachment_url
-from common import Waterfall, Platform
-from proto import notification_hub_pb2 as pb
+from ..base import get_expiry, validate_email, validate_template, validate_attachment_url
+from ..common import Waterfall, Platform
+from ..proto import notification_hub_pb2 as pb
 
 
 class EmailRecipient:
@@ -80,7 +80,7 @@ class Email:
         self._email.sender.CopyFrom(self.__set_sender(sender))
         self._email.replyTo.CopyFrom(self.__set_reply_to(reply_to))
         self.__set_cc(cc)
-        self._email.waterfallConfig = waterfall_config if waterfall_config else Waterfall().proto
+        self.__set_waterfall(waterfall_config)
         self._email.expiry = expiry if expiry else get_expiry(self._default_expiry_offset)
 
     def __set_recipients(self, send_to: List[EmailRecipient]):
@@ -114,6 +114,11 @@ class Email:
             return EmailRecipient('support@aasaanjobs.com', 'Aasaanjobs').proto
         else:
             return EmailRecipient('support@olxpeople.com', 'OLX People').proto
+
+    def __set_waterfall(self, value: Waterfall = None):
+        if not value:
+            value = Waterfall()
+        self._email.waterfallConfig.CopyFrom(value.proto)
 
     @property
     def proto(self) -> pb.Email:

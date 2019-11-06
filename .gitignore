@@ -105,3 +105,7 @@ venv.bak/
 
 # IDEA Files
 .idea/
+
+# Coverage Reports
+coverage_report/
+.coverage

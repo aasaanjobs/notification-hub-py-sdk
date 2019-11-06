@@ -1,8 +1,8 @@
 import unittest
 
-from base import InvalidEmail, InvalidAttachmentUrl
-from common import Platform
-from .email import Email, EmailRecipient, EmailAttachment
+from notificationhub_sdk.base import InvalidEmail, InvalidAttachmentUrl
+from notificationhub_sdk.common import Platform
+from notificationhub_sdk.email_task import Email, EmailRecipient, EmailAttachment
 
 
 class TestEmailRecipient(unittest.TestCase):

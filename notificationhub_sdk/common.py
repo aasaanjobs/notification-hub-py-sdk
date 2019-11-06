@@ -1,6 +1,6 @@
 from enum import IntFlag
 
-from proto import notification_hub_pb2 as pb
+from .proto import notification_hub_pb2 as pb
 
 
 class MessageType(IntFlag):

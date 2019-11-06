@@ -1,8 +1,8 @@
 import json
 
-from base import get_expiry, validate_template
-from common import Waterfall
-from proto import notification_hub_pb2 as pb
+from ..base import get_expiry, validate_template, validate_mobile
+from ..common import Waterfall
+from ..proto import notification_hub_pb2 as pb
 
 
 class Sms:
@@ -20,6 +20,8 @@ class Sms:
         Initiates Sms object
         """
         self._sms = pb.SMS()
+
+        validate_mobile(send_to)
         self._sms.mobile = send_to
 
         validate_template(template)

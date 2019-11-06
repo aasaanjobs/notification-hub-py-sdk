@@ -1,14 +1,14 @@
 from datetime import datetime
 
-from proto import notification_hub_pb2 as pb
+from ..proto import notification_hub_pb2 as pb
 
-from common import Platform
-from email_task import Email
-from sms import Sms
-from whatsapp import Whatsapp
-from mobile_push import Push
-from common import WaterfallMode, MessageType
-from sqs import SQSProducer
+from ..common import Platform
+from ..email_task import Email
+from ..sms import Sms
+from ..whatsapp import Whatsapp
+from ..mobile_push import Push
+from ..common import WaterfallMode, MessageType
+from ..sqs import SQSProducer
 import uuid
 
 
@@ -81,12 +81,8 @@ class Task:
             return
         self._task.push.CopyFrom(value.proto)
 
-    def get_serialized_string(self):
-        """
-        currently we are not serializing. So, it returns the Notification protobuf object.
-        :return:
-            seriliazed NotificationTask protobuf object
-        """
+    @property
+    def proto(self) -> pb.NotificationTask:
         return self._task
 
     def send(self, **kwargs):

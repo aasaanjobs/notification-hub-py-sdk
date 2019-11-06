@@ -1,0 +1,41 @@
+import re
+import unittest
+from uuid import UUID
+
+from notificationhub_sdk import Sms, Email, EmailRecipient, Platform, Whatsapp, Push, Task
+
+
+class TestNotificationTask(unittest.TestCase):
+    def setUp(self) -> None:
+        self.sms = Sms(send_to='8698009017', template='https://static.aasaanjobs.com/sms_template.html')
+
+        self.email = Email(send_to=[EmailRecipient('john.doe@example.com', 'John Doe')],
+                           template='https://static.aasaanjobs.com/email_template.html',
+                           subject='Test Email', platform=Platform.Aasaanjobs)
+        self.whatsapp = Whatsapp(send_to='8698009017', template='https://static.aasaanjobs.com/whatsapp_template.html')
+        self.push = Push(['arn:aws:iam::123456789012:user/Development/product_1234/*'],
+                         'https://static.aasaanjobs.com/push_template.html')
+        self.name = 'test_notification'
+        self.sent_by_id = '1'
+        self.client = 'api'
+        self.platform = Platform.OLXPeople
+
+    def test_existence_of_channels(self):
+        with self.assertRaises(AssertionError):
+            Task(self.name, self.sent_by_id, self.client, self.platform)
+
+    def test_sms(self):
+        obj = Task(self.name, self.sent_by_id, self.client, self.platform, sms=self.sms)
+        self.assertEqual(obj.proto.sms, self.sms.proto)
+
+    def test_email(self):
+        obj = Task(self.name, self.sent_by_id, self.client, self.platform, email=self.email)
+        self.assertEqual(obj.proto.email, self.email.proto)
+
+    def test_whatsapp(self):
+        obj = Task(self.name, self.sent_by_id, self.client, self.platform, whatsapp=self.whatsapp)
+        self.assertEqual(obj.proto.whatsapp, self.whatsapp.proto)
+
+    def test_push(self):
+        obj = Task(self.name, self.sent_by_id, self.client, self.platform, push=self.push)
+        self.assertEqual(obj.proto.push, self.push.proto)
