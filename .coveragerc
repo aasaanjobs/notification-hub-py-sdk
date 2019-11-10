@@ -3,6 +3,7 @@
 branch = true
 omit =
     venv/*
+    tests/*
 
 [report]
 # Regexes for lines to exclude from consideration

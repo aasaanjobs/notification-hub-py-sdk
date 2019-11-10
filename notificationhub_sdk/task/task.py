@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Tuple
 
 from ..proto import notification_hub_pb2 as pb
 
@@ -17,13 +18,13 @@ class Task:
     A wrapper class for NotificationTask protobuf structure
     """
 
-    def __init__(self, name: str, send_by_id: str, client: str, platform: Platform,
+    def __init__(self, name: str, sent_by_id: str, client: str, platform: Platform,
                  message_type: MessageType = MessageType.MARKETING, email: Email = None, sms: Sms = None,
                  whatsapp: Whatsapp = None, push: Push = None, waterfall_type: WaterfallMode = WaterfallMode.AUTO):
         """
         Initiates the task object
         :key name: Notification name (should be unique)
-        :key send_by_id: ID of the user who triggered the notification
+        :key sent_by_id: ID of the user who triggered the notification
         :key platform: Which company vertical are we sending to
         :key message_type: Nature of medium of the notification
         """
@@ -36,7 +37,7 @@ class Task:
         self.__set_triggered_on()
 
         self._task.name = name
-        self._task.sentByID = send_by_id
+        self._task.sentByID = sent_by_id
         self._task.client = client
         self._task.platform = platform
         self._task.messageType = message_type
@@ -85,6 +86,11 @@ class Task:
     def proto(self) -> pb.NotificationTask:
         return self._task
 
-    def send(self, **kwargs):
+    def send(self, **kwargs) -> Tuple[str, str]:
+        """
+        Sends the notification task to Notification Hub Queue
+        :returns: The Task ID and the AWS Message ID.
+        """
         producer = SQSProducer(**kwargs)
-        producer.send_message(self._task)
+        aws_msg_id = producer.send_message(self._task)
+        return self._task.ID, aws_msg_id

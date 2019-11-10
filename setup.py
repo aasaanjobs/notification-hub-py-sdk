@@ -1,13 +1,16 @@
 from distutils.core import setup
 
+from setuptools import find_packages
+
 setup(
-    name='notificationhub_sdk',
-    version='0.1.0',
-    packages=['notificationhub_sdk', ],
-    author='Raghav Nayak',
-    author_email='raghavendra.nayak@olxpeople.com',
-    description='Notification Hub provides sdk to push the message to Amazon SQS',
+    name='aasaanjobs-notificationhub',
+    version='0.1.1',
+    packages=find_packages(where='.', exclude=('tests', 'venv', 'dist', )),
+    author='Raghav Nayak, Sohel tarir',
+    author_email='api@olxpeople.com',
+    description='Python client for Aasaanjobs Notification Hub',
     long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     url='https://github.com/aasaanjobs/notification-hub-py-sdk',
     install_requires=[
         "boto3==1.10.4",
@@ -15,4 +18,13 @@ setup(
         "protobuf==3.10.0",
         "validate-email==1.3"
     ],
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+    ],
+    python_requires='>=3.6',
+    test_suite='tests',
+    test_require=['moto']
 )

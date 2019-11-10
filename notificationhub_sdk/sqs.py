@@ -3,6 +3,8 @@ import os
 
 import boto3
 
+from notificationhub_sdk.base import ImproperlyConfigured
+
 
 class SQSProducer:
     """
@@ -24,7 +26,7 @@ class SQSProducer:
 
         self._session = None
         self._queue = None
-        self.init_sqs_session()
+        self.init_sqs_session(kwargs.get('endpoint_url'))
 
     def _get_setting(self, kw_name, env_name, **kwargs):
         if kwargs.get(kw_name):
@@ -32,7 +34,11 @@ class SQSProducer:
         value = self.__get_from_django_settings(env_name)
         # If not found in Django settings, retrieve from environment variables
         if not value:
-            return os.getenv(env_name)
+            value = os.getenv(env_name)
+        # Throw error if still failed to retrieve the setting
+        if not value:
+            raise ImproperlyConfigured('Missing required settings `{}`'.format(env_name))
+        return value
 
     @staticmethod
     def __get_from_django_settings(name):
@@ -49,25 +55,30 @@ class SQSProducer:
         except ModuleNotFoundError:
             return None
 
-    def init_sqs_session(self):
+    def init_sqs_session(self, endpoint_url=None):
         """
         Initiates SQS session
         """
-        self._session = boto3.resource(
-            service_name="sqs",
-            aws_access_key_id=self.access_key_id,
-            aws_secret_access_key=self.secret_access_key,
-            region_name=self.region
-        )
-
-        # Retrieve Queue
+        client_kwargs = {
+            'service_name': "sqs",
+            'aws_access_key_id': self.access_key_id,
+            'aws_secret_access_key': self.secret_access_key,
+            'region_name': self.region
+        }
+        if endpoint_url:
+            client_kwargs['endpoint_url'] = endpoint_url
+        self._session = boto3.resource(**client_kwargs)
         self._queue = self._session.get_queue_by_name(QueueName=self.queue_name)
 
-    def send_message(self, message_body: str):
+    def send_message(self, message_body: str) -> str:
         """
         Sends a message to Amazon SQS
+        :param message_body: The message to be pushed to queue
+        :returns The MessageId returned by AWS
+        :raises ConnectionError if failure in sending occurs
         """
         res = self._queue.send_message(QueueUrl=self._queue.url, MessageBody=str(message_body))
         status_code = res.get('ResponseMetadata').get('HTTPStatusCode')
         if status_code / 100 != 2:
             raise ConnectionError('Failed to send message to Hub Queue')
+        return res['MessageId']

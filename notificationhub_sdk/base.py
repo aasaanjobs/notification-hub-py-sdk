@@ -23,6 +23,10 @@ class InvalidArnEndpoint(Exception):
     pass
 
 
+class ImproperlyConfigured(Exception):
+    pass
+
+
 def get_expiry(offset: int) -> int:
     """
     Returns the expiry timestamp in epoch

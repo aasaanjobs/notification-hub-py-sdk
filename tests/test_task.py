@@ -1,6 +1,10 @@
+import os
 import re
 import unittest
 from uuid import UUID
+
+import boto3
+from moto import mock_sqs
 
 from notificationhub_sdk import Sms, Email, EmailRecipient, Platform, Whatsapp, Push, Task
 
@@ -19,6 +23,18 @@ class TestNotificationTask(unittest.TestCase):
         self.sent_by_id = '1'
         self.client = 'api'
         self.platform = Platform.OLXPeople
+
+        """Mocked AWS Credentials for moto."""
+        os.environ['AWS_ACCESS_KEY_ID'] = 'testing'
+        os.environ['AWS_SECRET_ACCESS_KEY'] = 'testing'
+        os.environ['AWS_SECURITY_TOKEN'] = 'testing'
+        os.environ['AWS_SESSION_TOKEN'] = 'testing'
+        os.environ['REGION_NAME'] = 'ap-south-1'
+
+        os.environ['NOTIFICATION_HUB_SQS_ACCESS_KEY_ID'] = 'testing'
+        os.environ['NOTIFICATION_HUB_SQS_SECRET_ACCESS_KEY'] = 'testing'
+        os.environ['NOTIFICATION_HUB_SQS_REGION'] = 'ap-south-1'
+        os.environ['NOTIFICATION_HUB_SQS_QUEUE_NAME'] = 'hub-test'
 
     def test_existence_of_channels(self):
         with self.assertRaises(AssertionError):
@@ -39,3 +55,18 @@ class TestNotificationTask(unittest.TestCase):
     def test_push(self):
         obj = Task(self.name, self.sent_by_id, self.client, self.platform, push=self.push)
         self.assertEqual(obj.proto.push, self.push.proto)
+
+    def test_sqs_push(self):
+        with mock_sqs():
+            # Initialise a boto session
+            sqs_session = boto3.client(service_name='sqs')
+            # Create a test SQS queue
+            res = sqs_session.create_queue(QueueName='hub-test')
+            try:
+                obj = Task(self.name, self.sent_by_id, self.client, self.platform, sms=self.sms)
+                task_id, aws_id = obj.send()
+                self.assertIsInstance(UUID(aws_id), UUID)
+                sqs_session.delete_queue(QueueUrl=res['QueueUrl'])
+            except Exception as ex:
+                sqs_session.delete_queue(QueueUrl=res['QueueUrl'])
+                raise ex
