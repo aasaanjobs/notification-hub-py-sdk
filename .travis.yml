@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.6"      # current default Python on Travis CI
+  - "3.7"
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+before_install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+after_success:
+  coveralls
+# command to run tests
+script:
+  - nosetests
+  - coverage run --source=notificationhub_sdk -m unittest tests/*
