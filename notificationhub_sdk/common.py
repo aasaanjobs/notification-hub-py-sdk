@@ -1,19 +1,17 @@
-from enum import IntFlag
-
 from .proto import notification_hub_pb2 as pb
 
 
-class MessageType(IntFlag):
+class MessageType:
     MARKETING = 0
     TRANSACTIONAL = 1
 
 
-class WaterfallMode(IntFlag):
+class WaterfallMode:
     AUTO = 0
     OVERRIDE = 1
 
 
-class Platform(IntFlag):
+class Platform:
     Aasaanjobs = 1
     OLXPeople = 2
 
