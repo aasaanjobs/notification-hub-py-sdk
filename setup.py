@@ -4,7 +4,7 @@ from setuptools import find_packages
 
 setup(
     name='aasaanjobs-notificationhub',
-    version='0.1.1',
+    version='0.9.0',
     packages=find_packages(where='.', exclude=('tests', 'venv', 'dist', )),
     author='Raghav Nayak, Sohel tarir',
     author_email='api@olxpeople.com',

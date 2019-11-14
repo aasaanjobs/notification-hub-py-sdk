@@ -1,5 +1,5 @@
-from typing import List
 import json
+from typing import List
 
 from ..base import get_expiry, validate_template, validate_arn_endpoint
 from ..common import Waterfall
@@ -18,7 +18,13 @@ class Push:
             expiry: int = None
     ):
         """
-        Initiates Push object
+        Parameters:
+            arn_endpoints (str[]): List of ARN endpoints to whom the push message will be sent
+            template (str): The template URL which will get rendered with the variable data provided
+            context (dict, optional): A dictionary of variable data to be rendered in the template
+            waterfall_config (Waterfall, optional): The configuration to be used by Hub priority engine to schedule
+                this channel
+            expiry (int, optional): The Epoch timestamp at which this notification task should expire if still not sent
         """
         self._push = pb.Push()
 
@@ -28,7 +34,6 @@ class Push:
 
         validate_template(template)
         self._push.template = template
-
         self._push.context = json.dumps(context) if context else '{}'
         self._push.expiry = expiry if expiry else get_expiry(self._default_expiry_offset)
         self.__set_waterfall(waterfall_config)

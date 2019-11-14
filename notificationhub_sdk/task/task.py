@@ -22,17 +22,23 @@ class Task:
                  message_type: MessageType = MessageType.MARKETING, email: Email = None, sms: Sms = None,
                  whatsapp: Whatsapp = None, push: Push = None, waterfall_type: WaterfallMode = WaterfallMode.AUTO):
         """
-        Initiates the task object
-        :key name: Notification name (should be unique)
-        :key sent_by_id: ID of the user who triggered the notification
-        :key platform: Which company vertical are we sending to
-        :key message_type: Nature of medium of the notification
+        Parameters:
+            name (str): A unique name for this notification task
+            sent_by_id (str): ID of the user who triggered the notification
+            client (str): Name of the application or service triggering the notification
+            platform (Platform): Which company vertical are we sending from
+            message_type (MessageType, optional): Medium of the notifications (defaults to MessageType.MARKETING)
+            email (Email, optional): The Email object (refer Email docs)
+            sms (Sms, optional): The SMS object (refer SMS docs)
+            whatsapp (Whatsapp, optional): The WhatsApp object  (refer WhatsApp docs)
+            push (Push, optional): The Push object (refer Push docs)
+            waterfall_type (WaterfallMode, optional): Whether to override the default priority engine logic or not
         """
         self._task = pb.NotificationTask()
 
         # Check whether at least one channel is specified
         if not email and not sms and not whatsapp and not push:
-            raise AssertionError('Atleast one channel should be passed')
+            raise AssertionError('At least one channel should be passed')
         self.__set_id()
         self.__set_triggered_on()
 
@@ -70,6 +76,8 @@ class Task:
     def __set_email(self, value: Email):
         if not value:
             return
+        # Set the platform
+        value.platform = self._task.platform
         self._task.email.CopyFrom(value.proto)
 
     def __set_whatsapp(self, value: Whatsapp):

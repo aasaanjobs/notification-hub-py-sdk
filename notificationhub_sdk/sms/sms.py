@@ -17,7 +17,13 @@ class Sms:
             expiry: int = None
     ):
         """
-        Initiates Sms object
+        Parameters:
+            send_to (str): The mobile number to which SMS needs to be sent
+            template (str): The template URL which will get rendered with the variable data provided
+            context (dict, optional): A dictionary of variable data to be rendered in the template
+            waterfall_config (Waterfall, optional): The configuration to be used by Hub priority engine to schedule
+                this channel
+            expiry (int, optional): The Epoch timestamp at which this notification task should expire if still not sent
         """
         self._sms = pb.SMS()
 

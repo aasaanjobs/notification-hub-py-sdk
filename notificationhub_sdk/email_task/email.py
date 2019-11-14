@@ -10,7 +10,9 @@ class EmailRecipient:
 
     def __init__(self, email: str, name: str = ""):
         """
-        Initiates EmailRecipient object
+        Parameters:
+            email (str): Email ID
+            name (str, optional): The name of the person or company
         """
         self._email_recipient = pb.EmailRecipient()
         validate_email(email)
@@ -32,7 +34,9 @@ class EmailAttachment:
 
     def __init__(self, file_name: str, url: str):
         """
-        Initiates EmailAttachment object
+        Parameters:
+            file_name (str): The filename of the attachment
+            url (str): Accessible URL of the file
         """
         validate_attachment_url(url)
         self._email_attachment = pb.EmailAttachment()
@@ -55,17 +59,32 @@ class Email:
             send_to: List[EmailRecipient],
             template: str,
             subject: str,
-            platform: Platform,
             context: dict = None,
             sender: EmailRecipient = None,
             reply_to: EmailRecipient = None,
             cc: List[EmailRecipient] = None,
             attachments: List[EmailAttachment] = None,
             waterfall_config: Waterfall = None,
-            expiry: int = None
+            expiry: int = None,
+            platform: Platform = Platform.Aasaanjobs
     ):
         """
-        Initiates Email object
+        Parameters:
+            send_to (EmailRecipient[]): An array of recipients. Each object within this array may contain the name,
+                but must always contain the email, of a recipient. (min: 1, max: 1000)
+            template (str): The Email base template URL which will get rendered with the variable data provided.
+            subject (str): The subject of your email. Char length requirements, according to the RFC -
+                http://stackoverflow.com/questions/1592291/what-is-the-email-subject-length-limit#answer-1592310
+            context (dict, optional): A dictionary of variable data to be rendered in the template
+            sender (EmailRecipient, optional): The name and email of the person who is sending the mail
+            reply_to (EmailRecipient, optional): The name and email of the person to whom recipients can reply to
+            cc (EmailRecipient[], optional): An array of recipients who will receive a copy of your email. Each object
+                within this array may contain the name, but must always contain the email, of a recipient.
+            attachments (EmailAttachment[], optional): An array of objects in which you can specify any attachments
+                you want to include.
+            waterfall_config (Waterfall, optional): The configuration to be used by Hub priority engine to schedule
+                this channel
+            expiry (int, optional): The Epoch timestamp at which this notification task should expire if still not sent
         """
         self._email = pb.Email()
         self.__set_recipients(send_to)
