@@ -19,12 +19,6 @@ class EmailRecipient:
         self._email_recipient.email = email
         self._email_recipient.name = name
 
-    def __str__(self):
-        return f'email: {self._email_recipient.email}, name: {self._email_recipient.name}'
-
-    def __repr__(self):
-        return f'{self._email_recipient.email}, {self._email_recipient.name}'
-
     @property
     def proto(self) -> pb.EmailRecipient:
         return self._email_recipient
@@ -42,9 +36,6 @@ class EmailAttachment:
         self._email_attachment = pb.EmailAttachment()
         self._email_attachment.filename = file_name
         self._email_attachment.url = url
-
-    def __str__(self):
-        return f'attachment: {self._email_attachment.filename}, url: {self._email_attachment.url}'
 
     @property
     def proto(self) -> pb.EmailAttachment:
