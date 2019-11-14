@@ -52,7 +52,7 @@ class SQSProducer:
             module = importlib.import_module('django.conf')
             settings = getattr(module, 'settings')
             return getattr(settings, name, None)
-        except (ModuleNotFoundError, ImportError):
+        except ImportError:
             return None
 
     def init_sqs_session(self, endpoint_url=None):
