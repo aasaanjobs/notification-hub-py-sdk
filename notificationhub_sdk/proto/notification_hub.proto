@@ -31,7 +31,7 @@ message NotificationTask {
         OVERRIDE = 1;
     }
     WaterfallMode waterfallType = 10;
-    // timestramp - UNIX EPOCH time
+    // timestamp - UNIX EPOCH time
     int64 triggeredOn = 11;
     // platform
     enum Platform {
@@ -57,7 +57,7 @@ message SMS {
     string context = 3;
     // The waterfall configuration for the channel
     Waterfall waterfallConfig = 4;
-    // expiry - timestramp UNIx EPOCH time
+    // expiry - timestamp UNIx EPOCH time
     int64 expiry = 5;
     // User ID
     string userID = 6;
@@ -72,7 +72,7 @@ message Whatsapp {
     string context = 3;
     // The waterfall configuration for the channel
     Waterfall waterfallConfig = 4;
-    // expiry - timestramp UNIx EPOCH time
+    // expiry - timestamp UNIx EPOCH time
     int64 expiry = 5;
     // User ID
     string userID = 6;
@@ -116,7 +116,7 @@ message Email {
     repeated EmailAttachment attachments = 8;
     // The waterfall configuration for the channel
     Waterfall waterfallConfig = 9;
-    // expiry - timestramp UNIx EPOCH time
+    // expiry - timestamp UNIx EPOCH time
     int64 expiry = 10;
 }
 // Push
@@ -129,7 +129,7 @@ message Push {
     string context = 3;
     // The waterfall configuration for the channel
     Waterfall waterfallConfig = 4;
-    // expiry - timestramp UNIx EPOCH time
+    // expiry - timestamp UNIx EPOCH time
     int64 expiry = 5;
     // User ID
     string userID = 6;

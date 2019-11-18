@@ -13,6 +13,7 @@ class Whatsapp:
             send_to: str,
             template: str,
             context: dict = None,
+            user_id: str = None,
             waterfall_config: Waterfall = None,
             expiry: int = None
     ):
@@ -21,6 +22,7 @@ class Whatsapp:
             send_to (str): The mobile number to which WhatsApp needs to be sent
             template (str): The template URL which will get rendered with the variable data provided
             context (dict, optional): A dictionary of variable data to be rendered in the template
+            user_id (str, optional): The ID of the user to whom the notification is being sent
             waterfall_config (Waterfall, optional): The configuration to be used by Hub priority engine to schedule
                 this channel
             expiry (int, optional): The Epoch timestamp at which this notification task should expire if still not sent
@@ -32,6 +34,8 @@ class Whatsapp:
 
         validate_template(template)
         self._whatsapp.template = template
+
+        self._whatsapp.userID = user_id if user_id else ''
 
         self._whatsapp.context = json.dumps(context) if context else '{}'
 

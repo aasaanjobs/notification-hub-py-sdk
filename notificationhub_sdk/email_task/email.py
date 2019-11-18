@@ -8,16 +8,18 @@ from ..proto import notification_hub_pb2 as pb
 
 class EmailRecipient:
 
-    def __init__(self, email: str, name: str = ""):
+    def __init__(self, email: str, name: str = "", user_id: str = ""):
         """
         Parameters:
             email (str): Email ID
             name (str, optional): The name of the person or company
+            user_id (str, optional): The User ID to whom the notification is being sent
         """
         self._email_recipient = pb.EmailRecipient()
         validate_email(email)
         self._email_recipient.email = email
         self._email_recipient.name = name
+        self._email_recipient.userID = user_id if user_id else ''
 
     @property
     def proto(self) -> pb.EmailRecipient:
