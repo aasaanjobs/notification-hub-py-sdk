@@ -1,5 +1,9 @@
 syntax = "proto3";
+
 package notification_hub;
+
+option go_package = "pb";
+
 // Notification Task configuration
 message NotificationTask {
     // A unique identifier for the notification
@@ -55,6 +59,8 @@ message SMS {
     Waterfall waterfallConfig = 4;
     // expiry - timestramp UNIx EPOCH time
     int64 expiry = 5;
+    // User ID
+    string userID = 6;
 }
 // Whatsapp configuration
 message Whatsapp {
@@ -68,6 +74,8 @@ message Whatsapp {
     Waterfall waterfallConfig = 4;
     // expiry - timestramp UNIx EPOCH time
     int64 expiry = 5;
+    // User ID
+    string userID = 6;
 }
 
 message EmailRecipient {
@@ -75,6 +83,8 @@ message EmailRecipient {
     string email = 1;
     // The name of the person or company that is sending the email
     string name = 2;
+    // User ID
+    string userID = 3;
 }
 
 message EmailAttachment{
@@ -121,4 +131,6 @@ message Push {
     Waterfall waterfallConfig = 4;
     // expiry - timestramp UNIx EPOCH time
     int64 expiry = 5;
+    // User ID
+    string userID = 6;
 }

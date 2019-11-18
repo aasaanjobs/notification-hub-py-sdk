@@ -19,8 +19,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='notification_hub.proto',
   package='notification_hub',
   syntax='proto3',
-  serialized_options=None,
-  serialized_pb=_b('\n\x16notification_hub.proto\x12\x10notification_hub\"\xd5\x04\n\x10NotificationTask\x12\n\n\x02ID\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x43\n\x0bmessageType\x18\x03 \x01(\x0e\x32..notification_hub.NotificationTask.MessageType\x12&\n\x05\x65mail\x18\x04 \x01(\x0b\x32\x17.notification_hub.Email\x12\"\n\x03sms\x18\x05 \x01(\x0b\x32\x15.notification_hub.SMS\x12,\n\x08whatsapp\x18\x06 \x01(\x0b\x32\x1a.notification_hub.Whatsapp\x12$\n\x04push\x18\x07 \x01(\x0b\x32\x16.notification_hub.Push\x12\x10\n\x08sentByID\x18\x08 \x01(\t\x12\x0e\n\x06\x63lient\x18\t \x01(\t\x12G\n\rwaterfallType\x18\n \x01(\x0e\x32\x30.notification_hub.NotificationTask.WaterfallMode\x12\x13\n\x0btriggeredOn\x18\x0b \x01(\x03\x12=\n\x08platform\x18\x0c \x01(\x0e\x32+.notification_hub.NotificationTask.Platform\"/\n\x0bMessageType\x12\r\n\tMARKETING\x10\x00\x12\x11\n\rTRANSACTIONAL\x10\x01\"\'\n\rWaterfallMode\x12\x08\n\x04\x41UTO\x10\x00\x12\x0c\n\x08OVERRIDE\x10\x01\")\n\x08Platform\x12\x0e\n\nAASAANJOBS\x10\x00\x12\r\n\tOLXPEOPLE\x10\x01\"1\n\tWaterfall\x12\x10\n\x08priority\x18\x01 \x01(\x05\x12\x12\n\noffsetTime\x18\x02 \x01(\x05\"~\n\x03SMS\x12\x10\n\x08template\x18\x01 \x01(\t\x12\x0e\n\x06mobile\x18\x02 \x01(\t\x12\x0f\n\x07\x63ontext\x18\x03 \x01(\t\x12\x34\n\x0fwaterfallConfig\x18\x04 \x01(\x0b\x32\x1b.notification_hub.Waterfall\x12\x0e\n\x06\x65xpiry\x18\x05 \x01(\x03\"\x83\x01\n\x08Whatsapp\x12\x10\n\x08template\x18\x01 \x01(\t\x12\x0e\n\x06mobile\x18\x02 \x01(\t\x12\x0f\n\x07\x63ontext\x18\x03 \x01(\t\x12\x34\n\x0fwaterfallConfig\x18\x04 \x01(\x0b\x32\x1b.notification_hub.Waterfall\x12\x0e\n\x06\x65xpiry\x18\x05 \x01(\x03\"-\n\x0e\x45mailRecipient\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\"0\n\x0f\x45mailAttachment\x12\x10\n\x08\x66ilename\x18\x01 \x01(\t\x12\x0b\n\x03url\x18\x02 \x01(\t\"\x8e\x03\n\x05\x45mail\x12\x10\n\x08template\x18\x01 \x01(\t\x12\x36\n\x0ctoRecipients\x18\x02 \x03(\x0b\x32 .notification_hub.EmailRecipient\x12\x0f\n\x07\x63ontext\x18\x03 \x01(\t\x12\x0f\n\x07subject\x18\x04 \x01(\t\x12\x30\n\x06sender\x18\x05 \x01(\x0b\x32 .notification_hub.EmailRecipient\x12\x31\n\x07replyTo\x18\x06 \x01(\x0b\x32 .notification_hub.EmailRecipient\x12\x36\n\x0c\x63\x63Recipients\x18\x07 \x03(\x0b\x32 .notification_hub.EmailRecipient\x12\x36\n\x0b\x61ttachments\x18\x08 \x03(\x0b\x32!.notification_hub.EmailAttachment\x12\x34\n\x0fwaterfallConfig\x18\t \x01(\x0b\x32\x1b.notification_hub.Waterfall\x12\x0e\n\x06\x65xpiry\x18\n \x01(\x03\"\x85\x01\n\x04Push\x12\x10\n\x08template\x18\x01 \x01(\t\x12\x14\n\x0c\x61rnEndpoints\x18\x02 \x03(\t\x12\x0f\n\x07\x63ontext\x18\x03 \x01(\t\x12\x34\n\x0fwaterfallConfig\x18\x04 \x01(\x0b\x32\x1b.notification_hub.Waterfall\x12\x0e\n\x06\x65xpiry\x18\x05 \x01(\x03\x62\x06proto3')
+  serialized_options=_b('Z\002pb'),
+  serialized_pb=_b('\n\x16notification_hub.proto\x12\x10notification_hub\"\xd5\x04\n\x10NotificationTask\x12\n\n\x02ID\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x43\n\x0bmessageType\x18\x03 \x01(\x0e\x32..notification_hub.NotificationTask.MessageType\x12&\n\x05\x65mail\x18\x04 \x01(\x0b\x32\x17.notification_hub.Email\x12\"\n\x03sms\x18\x05 \x01(\x0b\x32\x15.notification_hub.SMS\x12,\n\x08whatsapp\x18\x06 \x01(\x0b\x32\x1a.notification_hub.Whatsapp\x12$\n\x04push\x18\x07 \x01(\x0b\x32\x16.notification_hub.Push\x12\x10\n\x08sentByID\x18\x08 \x01(\t\x12\x0e\n\x06\x63lient\x18\t \x01(\t\x12G\n\rwaterfallType\x18\n \x01(\x0e\x32\x30.notification_hub.NotificationTask.WaterfallMode\x12\x13\n\x0btriggeredOn\x18\x0b \x01(\x03\x12=\n\x08platform\x18\x0c \x01(\x0e\x32+.notification_hub.NotificationTask.Platform\"/\n\x0bMessageType\x12\r\n\tMARKETING\x10\x00\x12\x11\n\rTRANSACTIONAL\x10\x01\"\'\n\rWaterfallMode\x12\x08\n\x04\x41UTO\x10\x00\x12\x0c\n\x08OVERRIDE\x10\x01\")\n\x08Platform\x12\x0e\n\nAASAANJOBS\x10\x00\x12\r\n\tOLXPEOPLE\x10\x01\"1\n\tWaterfall\x12\x10\n\x08priority\x18\x01 \x01(\x05\x12\x12\n\noffsetTime\x18\x02 \x01(\x05\"\x8e\x01\n\x03SMS\x12\x10\n\x08template\x18\x01 \x01(\t\x12\x0e\n\x06mobile\x18\x02 \x01(\t\x12\x0f\n\x07\x63ontext\x18\x03 \x01(\t\x12\x34\n\x0fwaterfallConfig\x18\x04 \x01(\x0b\x32\x1b.notification_hub.Waterfall\x12\x0e\n\x06\x65xpiry\x18\x05 \x01(\x03\x12\x0e\n\x06userID\x18\x06 \x01(\t\"\x93\x01\n\x08Whatsapp\x12\x10\n\x08template\x18\x01 \x01(\t\x12\x0e\n\x06mobile\x18\x02 \x01(\t\x12\x0f\n\x07\x63ontext\x18\x03 \x01(\t\x12\x34\n\x0fwaterfallConfig\x18\x04 \x01(\x0b\x32\x1b.notification_hub.Waterfall\x12\x0e\n\x06\x65xpiry\x18\x05 \x01(\x03\x12\x0e\n\x06userID\x18\x06 \x01(\t\"=\n\x0e\x45mailRecipient\x12\r\n\x05\x65mail\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0e\n\x06userID\x18\x03 \x01(\t\"0\n\x0f\x45mailAttachment\x12\x10\n\x08\x66ilename\x18\x01 \x01(\t\x12\x0b\n\x03url\x18\x02 \x01(\t\"\x8e\x03\n\x05\x45mail\x12\x10\n\x08template\x18\x01 \x01(\t\x12\x36\n\x0ctoRecipients\x18\x02 \x03(\x0b\x32 .notification_hub.EmailRecipient\x12\x0f\n\x07\x63ontext\x18\x03 \x01(\t\x12\x0f\n\x07subject\x18\x04 \x01(\t\x12\x30\n\x06sender\x18\x05 \x01(\x0b\x32 .notification_hub.EmailRecipient\x12\x31\n\x07replyTo\x18\x06 \x01(\x0b\x32 .notification_hub.EmailRecipient\x12\x36\n\x0c\x63\x63Recipients\x18\x07 \x03(\x0b\x32 .notification_hub.EmailRecipient\x12\x36\n\x0b\x61ttachments\x18\x08 \x03(\x0b\x32!.notification_hub.EmailAttachment\x12\x34\n\x0fwaterfallConfig\x18\t \x01(\x0b\x32\x1b.notification_hub.Waterfall\x12\x0e\n\x06\x65xpiry\x18\n \x01(\x03\"\x95\x01\n\x04Push\x12\x10\n\x08template\x18\x01 \x01(\t\x12\x14\n\x0c\x61rnEndpoints\x18\x02 \x03(\t\x12\x0f\n\x07\x63ontext\x18\x03 \x01(\t\x12\x34\n\x0fwaterfallConfig\x18\x04 \x01(\x0b\x32\x1b.notification_hub.Waterfall\x12\x0e\n\x06\x65xpiry\x18\x05 \x01(\x03\x12\x0e\n\x06userID\x18\x06 \x01(\tB\x04Z\x02pbb\x06proto3')
 )
 
 
@@ -283,6 +283,13 @@ _SMS = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='userID', full_name='notification_hub.SMS.userID', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -295,8 +302,8 @@ _SMS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=695,
-  serialized_end=821,
+  serialized_start=696,
+  serialized_end=838,
 )
 
 
@@ -342,6 +349,13 @@ _WHATSAPP = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='userID', full_name='notification_hub.Whatsapp.userID', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -354,8 +368,8 @@ _WHATSAPP = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=824,
-  serialized_end=955,
+  serialized_start=841,
+  serialized_end=988,
 )
 
 
@@ -380,6 +394,13 @@ _EMAILRECIPIENT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='userID', full_name='notification_hub.EmailRecipient.userID', index=2,
+      number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -392,8 +413,8 @@ _EMAILRECIPIENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=957,
-  serialized_end=1002,
+  serialized_start=990,
+  serialized_end=1051,
 )
 
 
@@ -430,8 +451,8 @@ _EMAILATTACHMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1004,
-  serialized_end=1052,
+  serialized_start=1053,
+  serialized_end=1101,
 )
 
 
@@ -524,8 +545,8 @@ _EMAIL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1055,
-  serialized_end=1453,
+  serialized_start=1104,
+  serialized_end=1502,
 )
 
 
@@ -571,6 +592,13 @@ _PUSH = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='userID', full_name='notification_hub.Push.userID', index=5,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -583,8 +611,8 @@ _PUSH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1456,
-  serialized_end=1589,
+  serialized_start=1505,
+  serialized_end=1654,
 )
 
 _NOTIFICATIONTASK.fields_by_name['messageType'].enum_type = _NOTIFICATIONTASK_MESSAGETYPE
@@ -673,4 +701,5 @@ Push = _reflection.GeneratedProtocolMessageType('Push', (_message.Message,), {
 _sym_db.RegisterMessage(Push)
 
 
+DESCRIPTOR._options = None
 # @@protoc_insertion_point(module_scope)
