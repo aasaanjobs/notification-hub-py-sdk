@@ -65,7 +65,7 @@ class Task:
         """
         Sets the current timestamp as triggered on
         """
-        now = datetime.utcnow()
+        now = datetime.now()
         self._task.triggeredOn = int(datetime.timestamp(now))
 
     def __set_sms(self, value: Sms):
