@@ -13,7 +13,7 @@ Python SDK to communicate with Aasaanjobs Notification Hub and send notification
 
 ## Installation
 ```
-pip install aaasaanjobs-notificationhub
+pip install aasaanjobs-notificationhub
 ```
 
 ## Usage
