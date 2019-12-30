@@ -133,4 +133,5 @@ message Push {
     int64 expiry = 5;
     // User ID
     string userID = 6;
+     string extraPayload = 7;
 }
