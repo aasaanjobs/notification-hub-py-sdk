@@ -16,7 +16,8 @@ class Push:
             context: dict = None,
             user_id: str = None,
             waterfall_config: Waterfall = None,
-            expiry: int = None
+            expiry: int = None,
+            extra_payload: str = None
     ):
         """
         Parameters:
@@ -29,20 +30,19 @@ class Push:
             expiry (int, optional): The Epoch timestamp at which this notification task should expire if still not sent
         """
         self._push = pb.Push()
-
-        for _ in arn_endpoints:
-            validate_arn_endpoint(_)
+        validate_arn_endpoint(arn_endpoints)
         self.__set_arn_endpoints(arn_endpoints)
-
         validate_template(template)
         self._push.template = template
+        self._push.extra_payload = json.dumps(extra_payload) if extra_payload else None
         self._push.context = json.dumps(context) if context else '{}'
         self._push.userID = user_id if user_id else ''
         self._push.expiry = expiry if expiry else get_expiry(self._default_expiry_offset)
         self.__set_waterfall(waterfall_config)
 
     def __set_arn_endpoints(self, arn_endpoints: List[str]):
-        for _ in arn_endpoints:
+        arn_endpoints_set = set(arn_endpoints)
+        for _ in arn_endpoints_set:
             self._push.arnEndpoints.append(_)
 
     def __set_waterfall(self, value: Waterfall = None):

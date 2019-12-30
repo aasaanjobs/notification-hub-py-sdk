@@ -88,8 +88,9 @@ def validate_mobile(mobile: str):
         raise InvalidMobile('Invalid mobile number provided.')
 
 
-def validate_arn_endpoint(endpoint: str):
-    regex = re.compile(r'^arn:(?P<Partition>[^:\n]*):(?P<Service>[^:\n]*):(?P<Region>[^:\n]*):(?P<AccountID>[^:\n]*):'
-                       r'(?P<Ignore>(?P<ResourceType>[^:\/\n]*)[:\/])?(?P<Resource>.*)$')
-    if not re.match(regex, endpoint):
-        raise InvalidArnEndpoint("Invalid ARN Endpoint '{}' provided".format(endpoint))
+def validate_arn_endpoint(endpoint: list):
+    arn_endpoints_set = set(endpoint)
+    if len(arn_endpoints_set) == 0:
+        raise InvalidArnEndpoint("Size of endpoints should be greater than 0")
+    if len(arn_endpoints_set) > 100:
+        raise InvalidArnEndpoint("Size of endpoints should be less than 100")
