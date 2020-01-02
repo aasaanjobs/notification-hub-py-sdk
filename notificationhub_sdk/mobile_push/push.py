@@ -34,7 +34,7 @@ class Push:
         self.__set_arn_endpoints(arn_endpoints)
         validate_template(template)
         self._push.template = template
-        self._push.extra_payload = json.dumps(extra_payload) if extra_payload else "{}"
+        self._push.extraPayload = json.dumps(extra_payload) if extra_payload else "{}"
         self._push.context = json.dumps(context) if context else '{}'
         self._push.userID = user_id if user_id else ''
         self._push.expiry = expiry if expiry else get_expiry(self._default_expiry_offset)
