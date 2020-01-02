@@ -14,7 +14,7 @@ class TestPush(unittest.TestCase):
 
     def test_correct_arn(self):
         obj = Push(arn_endpoints=self.correct_arn_endpoint, template=self.correct_template)
-        self.assertEqual(obj.proto.arnEndpoints[0], self.correct_arn_endpoint)
+        self.assertEqual(obj.proto.arnEndpoints[0], self.correct_arn_endpoint[0])
 
     def test_incorrect_arn(self):
         with self.assertRaises(InvalidArnEndpoint):
