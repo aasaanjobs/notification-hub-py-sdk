@@ -19,7 +19,7 @@ class InvalidMobile(Exception):
     pass
 
 
-class InvalidArnEndpoint(Exception):
+class InvalidToken(Exception):
     pass
 
 
@@ -88,9 +88,6 @@ def validate_mobile(mobile: str):
         raise InvalidMobile('Invalid mobile number provided.')
 
 
-def validate_arn_endpoint(endpoint: list):
-    arn_endpoints_set = set(endpoint)
-    if len(arn_endpoints_set) == 0:
-        raise InvalidArnEndpoint("Size of endpoints should be greater than 0")
-    if len(arn_endpoints_set) > 100:
-        raise InvalidArnEndpoint("Size of endpoints should be less than 100")
+def validate_arn_endpoint(endpoint: str):
+    if len(endpoint) == 0:
+        raise InvalidToken("Invalid token")

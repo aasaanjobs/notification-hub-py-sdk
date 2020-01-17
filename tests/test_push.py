@@ -7,9 +7,9 @@ from notificationhub_sdk.mobile_push import Push
 
 class TestPush(unittest.TestCase):
     def setUp(self) -> None:
-        self.correct_arn_endpoint = ['cuhk5Noaw0M:APA91bGxjyUz4JDPj-AjmLIhNzDMxSMNcSGkMudnBvaWR_qhrEuc9mAHl6E4V5Gpo7mrTx0GjcsgvYVezTbzCMQhMEFD-WsXh3tlLJ4JdHwWDp9BSV8Fqf3Pks8GXQnsNNW3TZ_oF-ag']
+        self.correct_arn_endpoint = 'cuhk5Noaw0M:APA91bGxjyUz4JDPj-AjmLIhNzDMxSMNcSGkMudnBvaWR_qhrEuc9mAHl6E4V5Gpo7mrTx0GjcsgvYVezTbzCMQhMEFD-WsXh3tlLJ4JdHwWDp9BSV8Fqf3Pks8GXQnsNNW3TZ_oF-ag'
         self.correct_template = 'https://static.aasaanjobs.com/push_template.html'
-        self.incorrect_arn_endpoint = []
+        self.incorrect_arn_endpoint = ''
         self.incorrect_template = 'push_template.html'
 
     def test_correct_arn(self):
