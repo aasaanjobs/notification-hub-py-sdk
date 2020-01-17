@@ -17,7 +17,7 @@ class TestNotificationTask(unittest.TestCase):
                            template='https://static.aasaanjobs.com/email_template.html',
                            subject='Test Email', platform=Platform.Aasaanjobs)
         self.whatsapp = Whatsapp(send_to='8698009017', template='https://static.aasaanjobs.com/whatsapp_template.html')
-        self.push = Push(['arn:aws:iam::123456789012:user/Development/product_1234/*'],
+        self.push = Push('cuhk5Noaw0M:APA91bGxjyUz4JDPj-AjmLIhNzDMxSMNcSGkMudnBvaWR_qhrEuc9mAHl6E4V5Gpo7mrTx0GjcsgvYVezTbzCMQhMEFD-WsXh3tlLJ4JdHwWDp9BSV8Fqf3Pks8GXQnsNNW3TZ_oF-ag',
                          'https://static.aasaanjobs.com/push_template.html')
         self.name = 'test_notification'
         self.sent_by_id = '1'
