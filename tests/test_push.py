@@ -1,7 +1,7 @@
 import unittest
 
 from notificationhub_sdk.common import Waterfall
-from notificationhub_sdk.base import InvalidArnEndpoint, InvalidTemplateURL
+from notificationhub_sdk.base import InvalidToken, InvalidTemplateURL
 from notificationhub_sdk.mobile_push import Push
 
 
@@ -17,7 +17,7 @@ class TestPush(unittest.TestCase):
         self.assertEqual(obj.proto.arnEndpoints[0], self.correct_arn_endpoint[0])
 
     def test_incorrect_arn(self):
-        with self.assertRaises(InvalidArnEndpoint):
+        with self.assertRaises(InvalidToken):
             Push(arn_endpoints=self.incorrect_arn_endpoint, template=self.correct_template)
 
     def test_correct_template(self):
