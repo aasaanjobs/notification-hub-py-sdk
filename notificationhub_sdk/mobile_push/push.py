@@ -1,7 +1,7 @@
 import json
 
 from ..base import get_expiry, validate_template, validate_arn_endpoint
-from ..common import Waterfall
+from ..common import Waterfall,ClientApp
 from ..proto import notification_hub_pb2 as pb
 
 
@@ -16,7 +16,8 @@ class Push:
             user_id: str = None,
             waterfall_config: Waterfall = None,
             expiry: int = None,
-            extra_payload: dict = None
+            extra_payload: dict = None,
+            client_app: ClientApp = ClientApp.ANDROID
     ):
         """
         Parameters:
@@ -38,6 +39,7 @@ class Push:
         self._push.userID = user_id if user_id else ''
         self._push.expiry = expiry if expiry else get_expiry(self._default_expiry_offset)
         self.__set_waterfall(waterfall_config)
+        self._push.clientApp = client_app
 
     def __set_waterfall(self, value: Waterfall = None):
         if not value:

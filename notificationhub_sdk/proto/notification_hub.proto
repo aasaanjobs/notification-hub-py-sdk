@@ -31,7 +31,7 @@ message NotificationTask {
         OVERRIDE = 1;
     }
     WaterfallMode waterfallType = 10;
-    // timestamp - UNIX EPOCH time
+    // timestramp - UNIX EPOCH time
     int64 triggeredOn = 11;
     // platform
     enum Platform {
@@ -57,7 +57,7 @@ message SMS {
     string context = 3;
     // The waterfall configuration for the channel
     Waterfall waterfallConfig = 4;
-    // expiry - timestamp UNIx EPOCH time
+    // expiry - timestramp UNIx EPOCH time
     int64 expiry = 5;
     // User ID
     string userID = 6;
@@ -72,7 +72,7 @@ message Whatsapp {
     string context = 3;
     // The waterfall configuration for the channel
     Waterfall waterfallConfig = 4;
-    // expiry - timestamp UNIx EPOCH time
+    // expiry - timestramp UNIx EPOCH time
     int64 expiry = 5;
     // User ID
     string userID = 6;
@@ -116,7 +116,7 @@ message Email {
     repeated EmailAttachment attachments = 8;
     // The waterfall configuration for the channel
     Waterfall waterfallConfig = 9;
-    // expiry - timestamp UNIx EPOCH time
+    // expiry - timestramp UNIx EPOCH time
     int64 expiry = 10;
 }
 // Push
@@ -124,14 +124,22 @@ message Push {
     // URL to the notification template (should be stored in any cloud storage)
     string template = 1;
     // An array of Amazon Resource Names, which corresponds to the registration number of an Android device
-    repeated string arnEndpoints = 2;
+    string token = 2;
     // The template placeholder data
     string context = 3;
     // The waterfall configuration for the channel
     Waterfall waterfallConfig = 4;
-    // expiry - timestamp UNIx EPOCH time
+    // expiry - timestramp UNIx EPOCH time
     int64 expiry = 5;
     // User ID
     string userID = 6;
-     string extraPayload = 7;
+
+    string extraPayload = 7;
+
+    enum ClientApp {
+        ANDROID = 0;
+        IOS = 1;
+        WEB = 2;
+    }
+    ClientApp clientApp = 8;
 }
