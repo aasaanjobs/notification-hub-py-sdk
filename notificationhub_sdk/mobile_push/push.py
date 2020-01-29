@@ -39,7 +39,7 @@ class Push:
         self._push.userID = user_id if user_id else ''
         self._push.expiry = expiry if expiry else get_expiry(self._default_expiry_offset)
         self.__set_waterfall(waterfall_config)
-        self._push.ClientPlatform = client_platform
+        self._push.clientPlatform = client_platform
 
     def __set_waterfall(self, value: Waterfall = None):
         if not value:
