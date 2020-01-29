@@ -16,6 +16,12 @@ class Platform:
     OLXPeople = 2
 
 
+class ClientPlatform:
+    ANDROID = 0
+    IOS = 1
+    WEB = 2
+
+
 class Waterfall:
     """
     Initiates Waterfall object

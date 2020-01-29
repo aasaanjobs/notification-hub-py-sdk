@@ -19,7 +19,7 @@ class InvalidMobile(Exception):
     pass
 
 
-class InvalidArnEndpoint(Exception):
+class InvalidToken(Exception):
     pass
 
 
@@ -89,7 +89,5 @@ def validate_mobile(mobile: str):
 
 
 def validate_arn_endpoint(endpoint: str):
-    regex = re.compile(r'^arn:(?P<Partition>[^:\n]*):(?P<Service>[^:\n]*):(?P<Region>[^:\n]*):(?P<AccountID>[^:\n]*):'
-                       r'(?P<Ignore>(?P<ResourceType>[^:\/\n]*)[:\/])?(?P<Resource>.*)$')
-    if not re.match(regex, endpoint):
-        raise InvalidArnEndpoint("Invalid ARN Endpoint '{}' provided".format(endpoint))
+    if len(endpoint) == 0:
+        raise InvalidToken("Invalid token")

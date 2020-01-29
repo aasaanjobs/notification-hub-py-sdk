@@ -124,7 +124,7 @@ message Push {
     // URL to the notification template (should be stored in any cloud storage)
     string template = 1;
     // An array of Amazon Resource Names, which corresponds to the registration number of an Android device
-    repeated string arnEndpoints = 2;
+    string token = 2;
     // The template placeholder data
     string context = 3;
     // The waterfall configuration for the channel
@@ -133,4 +133,13 @@ message Push {
     int64 expiry = 5;
     // User ID
     string userID = 6;
+
+    string extraPayload = 7;
+
+    enum ClientPlatform {
+        ANDROID = 0;
+        IOS = 1;
+        WEB = 2;
+    }
+    ClientPlatform clientPlatform = 8;
 }
