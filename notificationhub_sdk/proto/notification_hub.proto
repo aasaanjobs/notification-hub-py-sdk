@@ -136,10 +136,10 @@ message Push {
 
     string extraPayload = 7;
 
-    enum ClientApp {
+    enum ClientPlatform {
         ANDROID = 0;
         IOS = 1;
         WEB = 2;
     }
-    ClientApp clientApp = 8;
+    ClientPlatform clientPlatform = 8;
 }

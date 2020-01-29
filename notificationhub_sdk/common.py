@@ -16,7 +16,7 @@ class Platform:
     OLXPeople = 2
 
 
-class ClientApp:
+class ClientPlatform:
     ANDROID = 0
     IOS = 1
     WEB = 2
