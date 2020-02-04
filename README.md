@@ -22,6 +22,10 @@ multiple channels, i.e., a single **Task** can contain both **Email** and **What
 This **Task** is then validated via [Protocol Buffers](https://developers.google.com/protocol-buffers)
 and pushed to corresponding Notification Hub Amazon SQS queue.
 
+For **Transactional** notifications **NOTIFICATION_HUB_SQS_QUEUE_NAME** environment variable should be configured.
+
+For **Marketing** notifications **NOTIFICATION_HUB_MARKETING_SQS_QUEUE_NAME** environment variable should be configured.
+
 ### Configuration
 Each application which uses this library must configure Amazon SQS configurations to successfully
 send notification task to Hub.
@@ -34,3 +38,4 @@ The following keys can be defined in the settings module if Django application o
 | NOTIFICATION_HUB_SQS_SECRET_ACCESS_KEY | Secret Access Key of the IAM role which has access to the Hub SQS |
 | NOTIFICATION_HUB_SQS_REGION            | AWS Region where the Hub SQS resides                              |
 | NOTIFICATION_HUB_SQS_QUEUE_NAME        | Name of the Hub SQS Queue                                         |
+| NOTIFICATION_HUB_MARKETING_SQS_QUEUE_NAME | Name of the Hub Marketing SQS Queue                            |
