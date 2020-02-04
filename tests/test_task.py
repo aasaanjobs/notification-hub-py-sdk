@@ -7,6 +7,7 @@ import boto3
 from moto import mock_sqs
 
 from notificationhub_sdk import Sms, Email, EmailRecipient, Platform, Whatsapp, Push, Task
+# from notificationhub_sdk.common import MessageType
 
 
 class TestNotificationTask(unittest.TestCase):
@@ -23,6 +24,7 @@ class TestNotificationTask(unittest.TestCase):
         self.sent_by_id = '1'
         self.client = 'api'
         self.platform = Platform.OLXPeople
+        # self.message_type = MessageType.MARKETING
 
         """Mocked AWS Credentials for moto."""
         os.environ['AWS_ACCESS_KEY_ID'] = 'testing'
@@ -35,6 +37,7 @@ class TestNotificationTask(unittest.TestCase):
         os.environ['NOTIFICATION_HUB_SQS_SECRET_ACCESS_KEY'] = 'testing'
         os.environ['NOTIFICATION_HUB_SQS_REGION'] = 'ap-south-1'
         os.environ['NOTIFICATION_HUB_SQS_QUEUE_NAME'] = 'hub-test'
+        os.environ['NOTIFICATION_HUB_MARKETING_SQS_QUEUE_NAME'] = 'hub-test'
 
     def test_existence_of_channels(self):
         with self.assertRaises(AssertionError):

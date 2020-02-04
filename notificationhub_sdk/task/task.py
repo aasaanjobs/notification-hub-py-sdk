@@ -11,6 +11,7 @@ from ..mobile_push import Push
 from ..common import WaterfallMode, MessageType
 from ..sqs import SQSProducer
 import uuid
+import os
 
 
 class Task:
@@ -99,6 +100,14 @@ class Task:
         Sends the notification task to Notification Hub Queue
         :returns: The Task ID and the AWS Message ID.
         """
+
+        if self._task.messageType == MessageType.MARKETING:
+            queue_name = os.getenv('NOTIFICATION_HUB_MARKETING_SQS_QUEUE_NAME')
+        elif self._task.messageType == MessageType.TRANSACTIONAL:
+            queue_name = os.getenv('NOTIFICATION_HUB_SQS_QUEUE_NAME')
+
+        kwargs.update({"queue_name": queue_name})
+
         producer = SQSProducer(**kwargs)
         aws_msg_id = producer.send_message(self._task)
         return self._task.ID, aws_msg_id
