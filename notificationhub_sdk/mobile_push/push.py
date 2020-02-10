@@ -17,17 +17,22 @@ class Push:
             waterfall_config: Waterfall = None,
             expiry: int = None,
             extra_payload: dict = None,
-            client_platform: ClientPlatform = ClientPlatform.ANDROID
+            client_platform: ClientPlatform = ClientPlatform.ANDROID,
+            dry_run: bool = False
     ):
         """
         Parameters:
-            arn_endpoints (str[]): List of ARN endpoints to whom the push message will be sent
+            token (str): List of ARN endpoints to whom the push message will be sent
             template (str): The template URL which will get rendered with the variable data provided
             context (dict, optional): A dictionary of variable data to be rendered in the template
             user_id (str, optional): The ID of the user to whom the notification is being sent
             waterfall_config (Waterfall, optional): The configuration to be used by Hub priority engine to schedule
                 this channel
             expiry (int, optional): The Epoch timestamp at which this notification task should expire if still not sent
+            extra_payload(dict,optional): extra_payload for sending client level configuration and extra data in
+               notification
+            client_platform(ClientPlatform, optional): identifying client for fcm to build respective request
+            dry_run(bool, optional): to enable dry run i.e won't send notification just validate client token
         """
         self._push = pb.Push()
         validate_arn_endpoint(token)
@@ -40,6 +45,7 @@ class Push:
         self._push.expiry = expiry if expiry else get_expiry(self._default_expiry_offset)
         self.__set_waterfall(waterfall_config)
         self._push.clientPlatform = client_platform
+        self._push.dryRun = dry_run
 
     def __set_waterfall(self, value: Waterfall = None):
         if not value:
