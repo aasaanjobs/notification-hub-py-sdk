@@ -104,7 +104,7 @@ class Task:
             queue_name = os.getenv('NOTIFICATION_HUB_MARKETING_SQS_QUEUE_NAME')
         elif self._task.messageType == MessageType.TRANSACTIONAL:
             queue_name = os.getenv('NOTIFICATION_HUB_SQS_QUEUE_NAME')
-        elif self._task.messageType == MessageType.OTP
+        elif self._task.messageType == MessageType.OTP:
             queue_name = os.getenv('NOTIFICATION_HUB_OTP_SQS_QUEUE_NAME')
 
         kwargs.update({"queue_name": queue_name})
