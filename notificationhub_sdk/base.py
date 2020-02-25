@@ -89,5 +89,5 @@ def validate_mobile(mobile: str):
 
 
 def validate_arn_endpoint(endpoint: str):
-    if len(endpoint) == 0:
+    if endpoint is None or len(endpoint) == 0:
         raise InvalidToken("Invalid token")
