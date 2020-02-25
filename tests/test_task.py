@@ -38,6 +38,7 @@ class TestNotificationTask(unittest.TestCase):
         os.environ['NOTIFICATION_HUB_SQS_REGION'] = 'ap-south-1'
         os.environ['NOTIFICATION_HUB_SQS_QUEUE_NAME'] = 'hub-test'
         os.environ['NOTIFICATION_HUB_MARKETING_SQS_QUEUE_NAME'] = 'hub-test'
+        os.environ['NOTIFICATION_HUB_OTP_SQS_QUEUE_NAME'] = 'hub-test'
 
     def test_existence_of_channels(self):
         with self.assertRaises(AssertionError):
