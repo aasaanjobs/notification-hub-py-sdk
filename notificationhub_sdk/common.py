@@ -4,6 +4,7 @@ from .proto import notification_hub_pb2 as pb
 class MessageType:
     MARKETING = 0
     TRANSACTIONAL = 1
+    OTP       = 2
 
 
 class WaterfallMode:

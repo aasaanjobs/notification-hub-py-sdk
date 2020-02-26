@@ -26,6 +26,8 @@ For **Transactional** notifications **NOTIFICATION_HUB_SQS_QUEUE_NAME** environm
 
 For **Marketing** notifications **NOTIFICATION_HUB_MARKETING_SQS_QUEUE_NAME** environment variable should be configured.
 
+For **OTP** notifications **NOTIFICATION_HUB_OTP_SQS_QUEUE_NAME** environment variable should be configured.
+
 ### Configuration
 Each application which uses this library must configure Amazon SQS configurations to successfully
 send notification task to Hub.
@@ -39,3 +41,4 @@ The following keys can be defined in the settings module if Django application o
 | NOTIFICATION_HUB_SQS_REGION            | AWS Region where the Hub SQS resides                              |
 | NOTIFICATION_HUB_SQS_QUEUE_NAME        | Name of the Hub SQS Queue                                         |
 | NOTIFICATION_HUB_MARKETING_SQS_QUEUE_NAME | Name of the Hub Marketing SQS Queue                            |
+| NOTIFICATION_HUB_OTP_SQS_QUEUE_NAME    | Name of the Hub OTP SQS Queue                            |
