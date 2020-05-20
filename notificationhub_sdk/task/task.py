@@ -111,5 +111,5 @@ class Task:
         kwargs.update({"queue_name": queue_name})
 
         producer = SQSProducer(**kwargs)
-        aws_msg_id = producer.send_message(self._task)
+        aws_msg_id = producer.send_message(self._task, self._task.messageType)
         return self._task.ID, aws_msg_id

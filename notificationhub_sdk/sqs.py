@@ -4,6 +4,7 @@ import os
 import boto3
 
 from notificationhub_sdk.base import ImproperlyConfigured
+from notificationhub_sdk.common import MessageType
 
 
 class SQSProducer:
@@ -14,7 +15,9 @@ class SQSProducer:
         ('access_key_id', 'NOTIFICATION_HUB_SQS_ACCESS_KEY_ID'),
         ('secret_access_key', 'NOTIFICATION_HUB_SQS_SECRET_ACCESS_KEY'),
         ('region', 'NOTIFICATION_HUB_SQS_REGION'),
-        ('queue_name', 'NOTIFICATION_HUB_SQS_QUEUE_NAME')
+        ('queue_name', 'NOTIFICATION_HUB_SQS_QUEUE_NAME'),  # transactional queue name
+        ('marketing_queue_name', 'NOTIFICATION_HUB_MARKETING_SQS_QUEUE_NAME'),
+        ('otp_queue_name', 'NOTIFICATION_HUB_OTP_SQS_QUEUE_NAME')
     )
 
     def __init__(self, **kwargs):
@@ -23,6 +26,8 @@ class SQSProducer:
         self.secret_access_key = self._get_setting(*self.setting_keys[1], **kwargs)
         self.region = self._get_setting(*self.setting_keys[2], **kwargs)
         self.queue_name = self._get_setting(*self.setting_keys[3], **kwargs)
+        self.marketing_queue_name = self._get_setting(*self.setting_keys[4], **kwargs)
+        self.otp_queue_name = self._get_setting(*self.setting_keys[5], **kwargs)
 
         self._session = None
         self._queue = None
@@ -70,13 +75,23 @@ class SQSProducer:
         self._session = boto3.resource(**client_kwargs)
         self._queue = self._session.get_queue_by_name(QueueName=self.queue_name)
 
-    def send_message(self, message_body: str) -> str:
+    def send_message(self, message_body: str, message_type: MessageType) -> str:
         """
         Sends a message to Amazon SQS
         :param message_body: The message to be pushed to queue
+        :param message_type: The type of message to be processed. This is used to identify the queue
         :returns The MessageId returned by AWS
         :raises ConnectionError if failure in sending occurs
         """
+        queue_name = self.queue_name
+        if message_type == MessageType.MARKETING:
+            queue_name = self.marketing_queue_name
+        elif message_type == MessageType.TRANSACTIONAL:
+            queue_name = self.queue_name
+        elif message_type == MessageType.OTP:
+            queue_name = self.otp_queue_name
+
+        self._queue = self._session.get_queue_by_name(QueueName=queue_name)
         res = self._queue.send_message(QueueUrl=self._queue.url, MessageBody=str(message_body))
         status_code = res.get('ResponseMetadata').get('HTTPStatusCode')
         if status_code / 100 != 2:
