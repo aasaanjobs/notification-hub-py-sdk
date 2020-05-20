@@ -83,11 +83,11 @@ class SQSProducer:
         :returns The MessageId returned by AWS
         :raises ConnectionError if failure in sending occurs
         """
-        queue_name = ""
+        queue_name = self.queue_name
         if message_type == MessageType.MARKETING:
             queue_name = self.marketing_queue_name
         elif message_type == MessageType.TRANSACTIONAL:
-            queue_name = self._queue.url
+            queue_name = self.queue_name
         elif message_type == MessageType.OTP:
             queue_name = self.otp_queue_name
 
