@@ -1,17 +1,15 @@
+import os
+import uuid
 from datetime import datetime
 from typing import Tuple
 
-from ..proto import notification_hub_pb2 as pb
-
-from ..common import Platform
+from ..common import MessageType, Platform, WaterfallMode
 from ..email_task import Email
-from ..sms import Sms
-from ..whatsapp import Whatsapp
 from ..mobile_push import Push
-from ..common import WaterfallMode, MessageType
+from ..proto import notification_hub_pb2 as pb
+from ..sms import Sms
 from ..sqs import SQSProducer
-import uuid
-import os
+from ..whatsapp import Whatsapp
 
 
 class Task:
@@ -19,9 +17,17 @@ class Task:
     A wrapper class for NotificationTask protobuf structure
     """
 
-    def __init__(self, name: str, sent_by_id: str, client: str, platform: Platform,
-                 message_type: MessageType = MessageType.MARKETING, email: Email = None, sms: Sms = None,
-                 whatsapp: Whatsapp = None, push: Push = None, waterfall_type: WaterfallMode = WaterfallMode.AUTO):
+    def __init__(self, name: str,
+                       sent_by_id: str,
+                       client: str,
+                       platform: Platform,
+                       message_type: MessageType = MessageType.MARKETING,
+                       email: Email = None,
+                       sms: Sms = None,
+                       whatsapp: Whatsapp = None,
+                       push: Push = None,
+                       waterfall_type: WaterfallMode = WaterfallMode.AUTO,
+                       event_id: str = ""):
         """
         Parameters:
             name (str): A unique name for this notification task
@@ -34,6 +40,7 @@ class Task:
             whatsapp (Whatsapp, optional): The WhatsApp object  (refer WhatsApp docs)
             push (Push, optional): The Push object (refer Push docs)
             waterfall_type (WaterfallMode, optional): Whether to override the default priority engine logic or not
+            event_id (str): event id to connect notifications to specific applications
         """
         self._task = pb.NotificationTask()
 
@@ -49,6 +56,7 @@ class Task:
         self._task.platform = platform
         self._task.messageType = message_type
         self._task.waterfallType = waterfall_type
+        self._task.eventID = event_id
 
         # Assign the notification channels
         self.__set_sms(sms)

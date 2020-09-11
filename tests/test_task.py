@@ -25,6 +25,7 @@ class TestNotificationTask(unittest.TestCase):
         self.client = 'api'
         self.platform = Platform.OLXPeople
         # self.message_type = MessageType.MARKETING
+        self.event_id = "123456"
 
         """Mocked AWS Credentials for moto."""
         os.environ['AWS_ACCESS_KEY_ID'] = 'testing'
