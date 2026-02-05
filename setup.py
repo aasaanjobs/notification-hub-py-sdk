@@ -15,7 +15,7 @@ setup(
     install_requires=[
         "boto3==1.10.4",
         "botocore==1.13.4",
-        "protobuf==3.10.0",
+        "protobuf==5.29.6",
         "validate-email==1.3"
     ],
     classifiers=[
